@@ -34,11 +34,12 @@ in {
     bluetuith
     wiremix
     rustup
-
+    vlc
     i3status-rust
     qbittorrent
     steam
     openmw
+    spotify
   ];
 
   programs.git = {

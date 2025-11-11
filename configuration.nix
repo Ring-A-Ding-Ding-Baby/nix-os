@@ -137,7 +137,14 @@
     zig
     jq
     wl-clipboard
+    pkgs.vscode-extensions.vadimcn.vscode-lldb.adapter
+    lldb
   ];
+
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
 
   fonts.packages = with pkgs; [
     iosevka
