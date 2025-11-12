@@ -1,4 +1,6 @@
-{...}: {
+{inputs, ...}: let
+  dag = inputs.nvf.lib.nvim.dag;
+in {
   programs.nvf = {
     enable = true;
     enableManpages = true;
@@ -46,6 +48,9 @@
         ];
         telescope = {
           enable = true;
+          setupOpts = {
+            defaults.color_devicons = true;
+          };
         };
         filetree.neo-tree = {
           enable = true;
@@ -53,13 +58,15 @@
             enable_cursor_hijack = true;
             auto_clean_after_session_restore = true;
             git_status-async = true;
+            window.position = "float";
+            window.popup.border.style = "none";
           };
         };
         tabline.nvimBufferline = {
           enable = true;
           setupOpts.options.indicator.style = "none";
           mappings = {
-            closeCurrent = "<leader>bx";
+            closeCurrent = "<leader><leader>x";
             cycleNext = "<tab>";
             cyclePrevious = "<S-tab>";
           };
@@ -86,9 +93,20 @@
         };
         visuals = {
           indent-blankline.enable = true;
+          nvim-web-devicons.enable = true;
         };
         statusline.lualine.enable = true;
         git.enable = true;
+        terminal = {
+          toggleterm.enable = true;
+        };
+        pluginRC.dap-signs = dag.entryAfter ["nvim-dap"] ''
+          vim.fn.sign_define('DapBreakpoint',          { text = '●', texthl = 'DiagnosticSignError'})
+          vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'DiagnosticSignWarn'})
+          vim.fn.sign_define('DapBreakpointRejected',  { text = '', texthl = 'DiagnosticSignHint'})
+          vim.fn.sign_define('DapLogPoint',            { text = '', texthl = 'DiagnosticSignInfo'})
+          vim.fn.sign_define('DapStopped',             { text = '▶', texthl = 'DiagnosticSignInfo'})
+        '';
       };
     };
   };
