@@ -66,6 +66,12 @@ in {
   };
 
   wayland.windowManager.hyprland.extraConfig = ''
+    windowrulev2 = workspace 2 silent, class:(brave-browser)
+    windowrulev2 = workspace 3 silent, class:(jetbrains.*)
+    windowrulev2 = workspace 8 silent, class:(Spotify)
+    windowrulev2 = workspace 9 silent, class:(discord)
+    windowrulev2 = workspace 10 silent, class:(org.telegram.desktop)
+
     windowrulev2 = float,         class:popup
     windowrulev2 = center,        class:popup
     windowrulev2 = size 60% 60%,  class:popup
@@ -87,15 +93,15 @@ in {
     bind = , R, exec, playerctl loop Track
     bind = , SHIFT R, exec, playerctl loop None
     bind = , X, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-    bind = , M, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+    bind = , M, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 
     bind = , H, exec, playerctld unshift # previous player
     bind = , L, exec, playerctld shift # next player
 
     binde = , K, exec, playerctl volume 0.05+
     binde = , J, exec, playerctl volume 0.05-
-    binde = , SHIFT K, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
-    binde = , SHIFT J, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    binde = SHIFT, K, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+    binde = SHIFT, J, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
     bind = ,${submap_reset}, submap, reset
 
     submap = reset

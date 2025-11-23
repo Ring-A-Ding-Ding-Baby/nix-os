@@ -75,11 +75,12 @@ in {
   };
   services = {
     playerctld.enable = true;
+    blueman-applet.enable = true;
     mako = {
       enable = true;
       settings = {
         border-size = 0;
-        default-timeout = 900;
+        default-timeout = 1000;
         ignore-timeout = 1;
         margin = 0;
         max-visible = 4;
@@ -129,8 +130,10 @@ in {
   stylix = {
     enable = true;
     autoEnable = true;
+    fonts.sizes.desktop = 11;
     polarity = "dark";
     targets.hyprlock.enable = false;
+    targets.waybar.addCss = true;
   };
 
   home.stateVersion = "25.05";

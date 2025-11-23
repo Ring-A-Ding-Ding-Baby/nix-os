@@ -49,8 +49,6 @@ in {
 
       exec-once = [
         "waybar"
-        "nm-applet"
-        "blueman-applet"
         "wl-paste --watch cliphist store"
       ];
     };
