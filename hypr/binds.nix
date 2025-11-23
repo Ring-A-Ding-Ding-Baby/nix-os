@@ -3,6 +3,11 @@
   submap_reset = "Q";
 in {
   wayland.windowManager.hyprland.settings = {
+    binds = {
+      workspace_back_and_forth = true;
+      allow_workspace_cycles = true;
+    };
+
     bind = [
       "${mod}, H, movefocus, l"
       "${mod}, J, movefocus, d"
@@ -75,14 +80,23 @@ in {
     submap = reset
 
     submap = audio
-    bind = , M, exec, wezterm start --class popup -- wiremix
+    bind = , W, exec, wezterm start --class popup -- wiremix
     bind = , N, exec, playerctl next
     bind = , P, exec, playerctl previous
-    bind = , S, exec, playerctl play-pause
+    bind = , T, exec, playerctl play-pause
+    bind = , R, exec, playerctl loop Track
+    bind = , SHIFT R, exec, playerctl loop None
     bind = , X, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-    binde = , K,   exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
-    binde = , J, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-    bind = , ${submap_reset},      submap, reset
+    bind = , M, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+
+    bind = , H, exec, playerctld unshift # previous player
+    bind = , L, exec, playerctld shift # next player
+
+    binde = , K, exec, playerctl volume 5%+
+    binde = , J, exec, playerctl volume 5%-
+    binde = , SHIFT K, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+    binde = , SHIFT J, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    bind = ,${submap_reset}, submap, reset
 
     submap = reset
   '';

@@ -20,7 +20,6 @@
         "2001:4860:4860::8844"
       ];
     };
-    # Configure keymap in X11
 
     xserver.xkb = {
       layout = "us, ru";

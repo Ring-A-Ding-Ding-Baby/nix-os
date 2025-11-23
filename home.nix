@@ -17,6 +17,7 @@ in {
 
   home.packages = with pkgs; [
     brightnessctl
+    playerctl
     evtest
     wev
     zip
@@ -73,6 +74,7 @@ in {
       }'';
   };
   services = {
+    playerctld.enable = true;
     mako = {
       enable = true;
       settings = {
