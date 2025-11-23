@@ -16,7 +16,9 @@ in {
   home.homeDirectory = "/home/shrimp";
 
   home.packages = with pkgs; [
+    brightnessctl
     evtest
+    wev
     zip
     p7zip
     unzip

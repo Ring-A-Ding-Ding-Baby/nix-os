@@ -1,5 +1,6 @@
 {lib, ...}: let
   mod = "SUPER";
+  submap_reset = "Q";
 in {
   wayland.windowManager.hyprland.settings = {
     bind = [
@@ -35,6 +36,9 @@ in {
       "${mod} SHIFT, 9, movetoworkspace, 9"
       "${mod} SHIFT, 0, movetoworkspace, 10"
 
+      ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+      ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+
       "${mod}, SPACE, togglesplit"
       "${mod}, F, fullscreen"
       "${mod}, ESCAPE, exec, hyprlock"
@@ -42,18 +46,44 @@ in {
       "${mod}, Q, killactive"
       "${mod}, RETURN, exec, wezterm"
       "${mod}, D, exec, bemenu-run --binding=vim -Cin --fn 'IosevkaTerm Nerd Font' 11"
-
+      "${mod}, B, exec, wezterm start --class popup -- bluetuith"
+      "${mod}, W, exec, wezterm start --class popup -- wifitui"
       "${mod}, R, submap, resizemode"
+      "${mod}, A, submap, audio"
+    ];
+
+    binde = [
+      ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+      ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+      ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+      ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
     ];
   };
 
   wayland.windowManager.hyprland.extraConfig = ''
+    windowrulev2 = float,         class:popup
+    windowrulev2 = center,        class:popup
+    windowrulev2 = size 60% 60%,  class:popup
+    windowrulev2 = dimaround,     class:popup
+
     submap = resizemode
     binde = , H, resizeactive, -20 0
     binde = , L, resizeactive, 20 0
     binde = , K, resizeactive, 0 -20
     binde = , J, resizeactive, 0 20
-    bind = , RETURN, submap, reset
+    bind = , ${submap_reset}, submap, reset
+    submap = reset
+
+    submap = audio
+    bind = , M, exec, wezterm start --class popup -- wiremix
+    bind = , N, exec, playerctl next
+    bind = , P, exec, playerctl previous
+    bind = , S, exec, playerctl play-pause
+    bind = , X, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    binde = , K,   exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+    binde = , J, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    bind = , ${submap_reset},      submap, reset
+
     submap = reset
   '';
 }
