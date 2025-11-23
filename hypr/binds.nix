@@ -92,8 +92,8 @@ in {
     bind = , H, exec, playerctld unshift # previous player
     bind = , L, exec, playerctld shift # next player
 
-    binde = , K, exec, playerctl volume 5%+
-    binde = , J, exec, playerctl volume 5%-
+    binde = , K, exec, playerctl volume 0.05+
+    binde = , J, exec, playerctl volume 0.05-
     binde = , SHIFT K, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
     binde = , SHIFT J, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
     bind = ,${submap_reset}, submap, reset
