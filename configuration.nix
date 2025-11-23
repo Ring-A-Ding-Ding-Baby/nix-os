@@ -6,6 +6,8 @@
   pkgs,
   stylix,
   lib,
+  basix,
+  wifitui,
   inputs,
   ...
 }: {
@@ -46,6 +48,7 @@
   };
 
   security.rtkit.enable = true;
+  hardware.xpadneo.enable = true;
 
   hardware.bluetooth = {
     enable = true;
@@ -61,7 +64,7 @@
   users.users.shrimp = {
     isNormalUser = true;
     description = "shrimp";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" "input"];
     packages = with pkgs; [];
   };
 
@@ -84,7 +87,7 @@
   stylix = {
     enable = true;
 
-    base16Scheme = inputs.basix.schemeData.base24."banana-blueberry";
+    base16Scheme = basix.schemeData.base24."banana-blueberry";
     autoEnable = true;
     fonts = {
       monospace = {
@@ -123,6 +126,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   environment.systemPackages = with pkgs; [
+    wifitui.packages.${pkgs.system}.default
     vim
     wget
     htop

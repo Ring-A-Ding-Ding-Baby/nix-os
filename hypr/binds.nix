@@ -1,8 +1,6 @@
-{ lib, ... }:
-let
+{lib, ...}: let
   mod = "SUPER";
-in
-{
+in {
   wayland.windowManager.hyprland.settings = {
     bind = [
       "${mod}, H, movefocus, l"
@@ -43,19 +41,19 @@ in
       "${mod}, DELETE, exec, wlogout"
       "${mod}, Q, killactive"
       "${mod}, RETURN, exec, wezterm"
-      "${mod}, D, exec, bemenu-run --binding=vim -Cin --fn 'IosevkaTerm Nerd Font Mono' 10"
+      "${mod}, D, exec, bemenu-run --binding=vim -Cin --fn 'IosevkaTerm Nerd Font' 11"
 
       "${mod}, R, submap, resizemode"
     ];
   };
 
-   wayland.windowManager.hyprland.extraConfig = ''
-      submap = resizemode
-      binde = , H, resizeactive, -20 0
-      binde = , L, resizeactive, 20 0
-      binde = , K, resizeactive, 0 -20
-      binde = , J, resizeactive, 0 20
-      bind = , RETURN, submap, reset
-      submap = reset
-   ''; 
+  wayland.windowManager.hyprland.extraConfig = ''
+    submap = resizemode
+    binde = , H, resizeactive, -20 0
+    binde = , L, resizeactive, 20 0
+    binde = , K, resizeactive, 0 -20
+    binde = , J, resizeactive, 0 20
+    bind = , RETURN, submap, reset
+    submap = reset
+  '';
 }

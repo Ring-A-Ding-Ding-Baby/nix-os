@@ -18,11 +18,13 @@ in {
           lightbulb.autocmd.enable = true;
           inlayHints.enable = true;
           lspkind.enable = true;
+          trouble.enable = true;
         };
         languages = {
           enableFormat = true;
           enableTreesitter = true;
           enableDAP = true;
+          java.enable = true;
           rust = {
             enable = true;
             crates.enable = true;
@@ -106,6 +108,7 @@ in {
           vim.fn.sign_define('DapBreakpointRejected',  { text = '', texthl = 'DiagnosticSignHint'})
           vim.fn.sign_define('DapLogPoint',            { text = '', texthl = 'DiagnosticSignInfo'})
           vim.fn.sign_define('DapStopped',             { text = '▶', texthl = 'DiagnosticSignInfo'})
+          vim.api.nvim_set_hl(0, 'DapStoppedLine', { link = 'Visual' })
         '';
       };
     };

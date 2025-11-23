@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  lib,
   ...
 }: let
   c = config.lib.stylix.colors;
@@ -17,10 +16,16 @@ in {
   home.homeDirectory = "/home/shrimp";
 
   home.packages = with pkgs; [
+    evtest
+    zip
+    p7zip
+    unzip
     hyprlock
+    pcsx2
     wlogout
     hyprpaper
     mako
+    notify-desktop
     bemenu
     walker
     jetbrains.idea-community-src
@@ -39,6 +44,7 @@ in {
     qbittorrent
     steam
     openmw
+    discord
     spotify
   ];
 
@@ -65,7 +71,16 @@ in {
       }'';
   };
   services = {
-    mako.enable = true;
+    mako = {
+      enable = true;
+      settings = {
+        border-size = 0;
+        default-timeout = 900;
+        ignore-timeout = 1;
+        margin = 0;
+        max-visible = 4;
+      };
+    };
   };
   programs = {
     hyprlock = {
