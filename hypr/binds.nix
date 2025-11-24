@@ -66,8 +66,8 @@ in {
       "${mod}, D, exec, bemenu-run --binding=vim -Cin --fn 'IosevkaTerm Nerd Font' 11"
       "${mod}, B, exec, wezterm start --class popup -- bluetuith"
       "${mod}, W, exec, wezterm start --class popup -- wifitui"
-      "${mod}, R, submap, resizemode"
-      "${mod}, ${audio_control_mode}, submap, audio"
+      "${mod}, R, submap, RESIZE"
+      "${mod}, ${audio_control_mode}, submap, AUDIO"
     ];
 
     binde = [
@@ -79,7 +79,7 @@ in {
   };
 
   wayland.windowManager.hyprland.extraConfig = ''
-    submap = resizemode
+    submap = RESIZE
     binde = , H, resizeactive, -20 0
     binde = , L, resizeactive, 20 0
     binde = , K, resizeactive, 0 -20
@@ -87,7 +87,7 @@ in {
     bind = , ${submap_reset}, submap, reset
     submap = reset
 
-    submap = audio
+    submap = AUDIO
     bind = , ${audio_control_mode}, exec, wezterm start --class popup -- wiremix
     bind = , ${audio_control_mode}, submap, reset # to cancel submap on audio manager open
     bind = , N, exec, playerctl next
