@@ -1,12 +1,25 @@
 {lib, ...}: let
   mod = "SUPER";
   submap_reset = "Q";
+  audio_control_mode = "A";
 in {
   wayland.windowManager.hyprland.settings = {
     binds = {
       workspace_back_and_forth = true;
       allow_workspace_cycles = true;
     };
+
+    windowrule = [
+      "workspace 2 silent, class:(brave-browser)"
+      "workspace 3 silent, class:(jetbrains.*)"
+      "workspace 8 silent, class:(Spotify)"
+      "workspace 9 silent, class:(discord)"
+      "workspace 10 silent, class:(org.telegram.desktop)"
+      "float,         class:popup"
+      "center,        class:popup"
+      "size 60% 60%,  class:popup"
+      "dimaround,     class:popup"
+    ];
 
     bind = [
       "${mod}, H, movefocus, l"
@@ -54,7 +67,7 @@ in {
       "${mod}, B, exec, wezterm start --class popup -- bluetuith"
       "${mod}, W, exec, wezterm start --class popup -- wifitui"
       "${mod}, R, submap, resizemode"
-      "${mod}, A, submap, audio"
+      "${mod}, ${audio_control_mode}, submap, audio"
     ];
 
     binde = [
@@ -66,17 +79,6 @@ in {
   };
 
   wayland.windowManager.hyprland.extraConfig = ''
-    windowrulev2 = workspace 2 silent, class:(brave-browser)
-    windowrulev2 = workspace 3 silent, class:(jetbrains.*)
-    windowrulev2 = workspace 8 silent, class:(Spotify)
-    windowrulev2 = workspace 9 silent, class:(discord)
-    windowrulev2 = workspace 10 silent, class:(org.telegram.desktop)
-
-    windowrulev2 = float,         class:popup
-    windowrulev2 = center,        class:popup
-    windowrulev2 = size 60% 60%,  class:popup
-    windowrulev2 = dimaround,     class:popup
-
     submap = resizemode
     binde = , H, resizeactive, -20 0
     binde = , L, resizeactive, 20 0
@@ -86,14 +88,15 @@ in {
     submap = reset
 
     submap = audio
-    bind = , W, exec, wezterm start --class popup -- wiremix
+    bind = , ${audio_control_mode}, exec, wezterm start --class popup -- wiremix
+    bind = , ${audio_control_mode}, submap, reset # to cancel submap on audio manager open
     bind = , N, exec, playerctl next
     bind = , P, exec, playerctl previous
     bind = , T, exec, playerctl play-pause
     bind = , R, exec, playerctl loop Track
-    bind = , SHIFT R, exec, playerctl loop None
-    bind = , X, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-    bind = , M, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+    bind = SHIFT, R, exec, playerctl loop None
+    bind = , D, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle # memo: D(eaf)
+    bind = , M, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle # memo: M(uted)
 
     bind = , H, exec, playerctld unshift # previous player
     bind = , L, exec, playerctld shift # next player
@@ -103,7 +106,6 @@ in {
     binde = SHIFT, K, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
     binde = SHIFT, J, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
     bind = ,${submap_reset}, submap, reset
-
     submap = reset
   '';
 }

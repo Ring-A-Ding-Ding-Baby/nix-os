@@ -75,7 +75,6 @@ in {
   };
   services = {
     playerctld.enable = true;
-    blueman-applet.enable = true;
     mako = {
       enable = true;
       settings = {

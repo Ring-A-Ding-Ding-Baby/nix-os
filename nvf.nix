@@ -74,6 +74,7 @@ in {
           };
         };
         utility = {
+          surround.enable = true;
           smart-splits = {
             enable = true;
           };

@@ -16,12 +16,12 @@ in {
       position = "top";
       modules-left = ["hyprland/workspaces"];
       modules-center = ["hyprland/window"];
-      modules-right = ["tray" "cpu" "memory" "pulseaudio" "network" "battery" "clock"];
+      modules-right = ["tray" "cpu" "memory" "pulseaudio" "mpris" "network" "battery" "clock"];
 
       clock = {format = "{:%a %d %b %H:%M}";};
 
       cpu = {
-        format = "{usage}% 󰘚";
+        format = "{usage}%  ";
       };
 
       memory = {
@@ -35,7 +35,7 @@ in {
       };
 
       network = {
-        format-wifi = "{essid} {signalStrength}%";
+        format-wifi = "{essid} {signalStrength}%  ";
         format-ethernet = "{ipaddr}/{cidr} 󰈁";
         format-disconnected = "󰈂 ";
       };
@@ -47,12 +47,27 @@ in {
         tooltip = false;
       };
 
+      mpris = {
+        format = "{player_icon} {status_icon} {title}●{artist}●{album}";
+        format-paused = "{player_icon} {status_icon} {title} {artist} {album}";
+        player-icons = {
+          default = " ";
+          brave = " ";
+          spotify = " ";
+        };
+        status-icons = {
+          paused = "";
+          playing = "";
+          stopped = "";
+        };
+      };
+
       "hyprland/workspaces" = {
         format = "{icon}"; # или "{icon} {id}"
 
         format-icons = {
           "1" = ""; # sys
-          "2" = "󰖟"; # web
+          "2" = ""; # web
           "3" = "󰨇"; # dev
           "8" = ""; # audio
           "9" = "󰍫"; # voice

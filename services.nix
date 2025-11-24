@@ -50,7 +50,6 @@
       pulse.enable = true;
       jack.enable = true;
     };
-    blueman.enable = true;
     upower.enable = true;
     gnome.gnome-keyring.enable = true;
     openssh.enable = true;
