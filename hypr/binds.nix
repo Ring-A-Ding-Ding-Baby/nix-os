@@ -10,11 +10,12 @@ in {
     };
 
     windowrule = [
-      "workspace 2 silent, class:(brave-browser)"
-      "workspace 3 silent, class:(jetbrains.*)"
-      "workspace 8 silent, class:(Spotify)"
-      "workspace 9 silent, class:(discord)"
-      "workspace 10 silent, class:(org.telegram.desktop)"
+      "workspace 2, class:(brave-browser)"
+      "workspace 3, class:(jetbrains.*)"
+      "workspace 5, title:(PCSX2.*)"
+      "workspace 8, class:(Spotify)"
+      "workspace 9, class:(discord)"
+      "workspace 10, class:(org.telegram.desktop)"
       "float,         class:popup"
       "center,        class:popup"
       "size 60% 60%,  class:popup"
@@ -27,10 +28,10 @@ in {
       "${mod}, K, movefocus, u"
       "${mod}, L, movefocus, r"
 
-      "${mod} SHIFT, H, movewindow, l"
-      "${mod} SHIFT, J, movewindow, d"
-      "${mod} SHIFT, K, movewindow, u"
-      "${mod} SHIFT, L, movewindow, r"
+      "${mod} SHIFT, H, movewindoworgroup, l"
+      "${mod} SHIFT, J, movewindoworgroup, d"
+      "${mod} SHIFT, K, movewindoworgroup, u"
+      "${mod} SHIFT, L, movewindoworgroup, r"
 
       "${mod}, 1, workspace, 1"
       "${mod}, 2, workspace, 2"
@@ -54,10 +55,16 @@ in {
       "${mod} SHIFT, 9, movetoworkspace, 9"
       "${mod} SHIFT, 0, movetoworkspace, 10"
 
+      "${mod}, T, togglegroup"
+      "${mod}, P, changegroupactive, b"
+      "${mod}, N, changegroupactive, f"
+
+      "${mod}, U, focusurgentorlast"
+
       ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
       ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 
-      "${mod}, SPACE, togglesplit"
+      #"${mod}, S, orientationcycle, left top right bottom center"
       "${mod}, F, fullscreen"
       "${mod}, ESCAPE, exec, hyprlock"
       "${mod}, DELETE, exec, wlogout"
@@ -92,7 +99,7 @@ in {
     bind = , ${audio_control_mode}, submap, reset # to cancel submap on audio manager open
     bind = , N, exec, playerctl next
     bind = , P, exec, playerctl previous
-    bind = , T, exec, playerctl play-pause
+    bind = , SPACE, exec, playerctl play-pause
     bind = , R, exec, playerctl loop Track
     bind = SHIFT, R, exec, playerctl loop None
     bind = , D, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle # memo: D(eaf)

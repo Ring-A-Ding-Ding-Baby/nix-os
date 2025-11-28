@@ -17,6 +17,7 @@ in {
 
   home.packages = with pkgs; [
     brightnessctl
+    prismlauncher
     playerctl
     evtest
     wev
@@ -28,6 +29,7 @@ in {
     wlogout
     hyprpaper
     mako
+    libnotify
     notify-desktop
     bemenu
     walker
@@ -42,6 +44,7 @@ in {
     bluetuith
     wiremix
     rustup
+    rust-bindgen
     vlc
     i3status-rust
     qbittorrent
@@ -79,10 +82,11 @@ in {
       enable = true;
       settings = {
         border-size = 0;
-        default-timeout = 1000;
+        default-timeout = 1800;
         ignore-timeout = 1;
         margin = 0;
-        max-visible = 4;
+        max-visible = 3;
+        anchor = "top-center";
       };
     };
   };

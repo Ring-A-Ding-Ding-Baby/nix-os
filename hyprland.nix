@@ -12,14 +12,17 @@ in {
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = false;
-    extraConfig = ''
-      windowrule = opacity 1.0 0.9 1.0, class:.*
-    '';
     settings = {
       monitor = ["eDP-1, preferred, auto, 1.0"];
 
       decoration = {
         rounding = 0;
+        dim_inactive = true;
+      };
+      group.groupbar = {
+        render_titles = false;
+        gaps_in = 0;
+        gaps_out = 0;
       };
 
       general = {
@@ -29,6 +32,13 @@ in {
         border_size = 0;
       };
 
+      misc = {
+        disable_splash_rendering = true;
+        disable_hyprland_logo = true;
+      };
+      cursor = {
+        inactive_timeout = 0.5;
+      };
       input = {
         kb_layout = "us,ru";
         kb_options = "grp:win_space_toggle";

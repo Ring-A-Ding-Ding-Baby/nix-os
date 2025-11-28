@@ -127,6 +127,7 @@
 
   environment.systemPackages = with pkgs; [
     wifitui.packages.${pkgs.system}.default
+    zerotierone
     vim
     wget
     htop

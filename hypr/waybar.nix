@@ -30,26 +30,27 @@ in {
       };
 
       battery = {
-        format = "{capacity}% {icon}";
-        format-icons = [" " " " " " " " " "];
+        format = "{icon}";
+        format-icons = ["𜺜  " "🬭  " "🬭🬭 " "🬭🬭🬭" "▅🬭🬭" "▅▅🬭" "▅▅▅" "█▅▅" "██▅" "███"];
       };
 
       network = {
         format-wifi = "{essid} {signalStrength}%  ";
         format-ethernet = "{ipaddr}/{cidr} 󰈁";
         format-disconnected = "󰈂 ";
+        interval = 10;
       };
 
       pulseaudio = {
         format = "{volume}% 󰓃";
-        format-bluetooth = "{volume}% 󰂱 ";
+        format-bluetooth = "{volume}% ";
         format-muted = "󰓄";
         tooltip = false;
       };
 
       mpris = {
         format = "{player_icon} {status_icon} {title}●{artist}●{album}";
-        format-paused = "{player_icon} {status_icon} {title} {artist} {album}";
+        format-paused = "{player_icon} {status_icon} {title}●{artist}●{album}";
         player-icons = {
           default = " ";
           brave = " ";
@@ -69,6 +70,7 @@ in {
           "1" = ""; # sys
           "2" = ""; # web
           "3" = "󰨇"; # dev
+          "5" = "󰺵"; # gaming
           "8" = ""; # audio
           "9" = "󰍫"; # voice
           "10" = "󰍣"; # chat

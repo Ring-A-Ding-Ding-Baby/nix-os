@@ -38,7 +38,9 @@ in {
           autoindent = true;
         };
         binds = {
-          whichKey.enable = true;
+          whichKey = {
+            enable = true;
+          };
         };
         keymaps = [
           {
@@ -68,7 +70,7 @@ in {
           enable = true;
           setupOpts.options.indicator.style = "none";
           mappings = {
-            closeCurrent = "<leader><leader>x";
+            closeCurrent = "<leader>bx";
             cycleNext = "<tab>";
             cyclePrevious = "<S-tab>";
           };
@@ -99,7 +101,15 @@ in {
           nvim-web-devicons.enable = true;
         };
         statusline.lualine.enable = true;
-        git.enable = true;
+        git = {
+          enable = true;
+          gitsigns = {
+          };
+          neogit = {
+            enable = true;
+          };
+        };
+
         terminal = {
           toggleterm.enable = true;
         };
