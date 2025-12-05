@@ -16,7 +16,7 @@ in {
       position = "top";
       modules-left = ["hyprland/workspaces"];
       modules-center = ["hyprland/submap"];
-      modules-right = ["tray" "cpu" "memory" "pulseaudio" "mpris" "network" "battery" "clock"];
+      modules-right = ["mpris" "pulseaudio" "network" "cpu" "memory" "clock" "battery"];
 
       clock = {format = "{:%a %d %b %H:%M}";};
 
