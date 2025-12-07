@@ -49,7 +49,15 @@
 
   security.rtkit.enable = true;
   hardware.xpadneo.enable = true;
-
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+      mesa
+    ];
+  };
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -126,7 +134,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   environment.systemPackages = with pkgs; [
-    wifitui.packages.${pkgs.system}.default
+    wifitui.packages.${pkgs.stdenv.hostPlatform.system}.default
     zerotierone
     vim
     wget

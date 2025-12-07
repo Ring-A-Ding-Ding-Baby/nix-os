@@ -8,11 +8,14 @@ in {
       workspace_back_and_forth = true;
       allow_workspace_cycles = true;
     };
-
+    animation = [
+      "windows, 1, 10, default, popin"
+    ];
     windowrule = [
       "workspace 2, class:(brave-browser)"
       "workspace 3, class:(jetbrains.*)"
-      "workspace 5, title:(PCSX2.*)"
+      "workspace 5, title:^(PCSX2.*)$"
+      "workspace 5, class:^(steam|org.prismlauncher.PrismLauncher)$"
       "workspace 8, class:(Spotify)"
       "workspace 9, class:(discord)"
       "workspace 10, class:(org.telegram.desktop)"
@@ -57,7 +60,9 @@ in {
 
       "${mod}, T, togglegroup"
       "${mod}, P, changegroupactive, b"
+      "${mod} SHIFT, P, cyclenext, prev floating"
       "${mod}, N, changegroupactive, f"
+      "${mod} SHIFT, N, cyclenext, floating"
 
       "${mod}, U, focusurgentorlast"
 

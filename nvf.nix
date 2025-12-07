@@ -63,7 +63,7 @@ in {
             auto_clean_after_session_restore = true;
             git_status-async = true;
             window.position = "float";
-            window.popup.border.style = "none";
+            #window.popup.border.style = "none";
           };
         };
         tabline.nvimBufferline = {
