@@ -138,6 +138,7 @@
     zerotierone
     vim
     wget
+    file
     htop
     tree
     fd
@@ -150,8 +151,6 @@
     zig
     jq
     wl-clipboard
-    pkgs.vscode-extensions.vadimcn.vscode-lldb.adapter
-    lldb
   ];
 
   environment.variables = {

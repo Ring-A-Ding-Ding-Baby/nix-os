@@ -738,17 +738,14 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1762622004,
-        "narHash": "sha256-NpzzgaoMK8aRHnndHWbYNKLcZN0r1y6icCoJvGoBsoE=",
-        "owner": "notashelf",
-        "repo": "nvf",
-        "rev": "09470524a214ed26633ddc2b6ec0c9bf31a8b909",
-        "type": "github"
+        "lastModified": 1765614188,
+        "narHash": "sha256-TWNBuIlAschX32kKgAl3gGKdUoTPXhlZnp4hh+/YQRA=",
+        "path": "/home/shrimp/nvf",
+        "type": "path"
       },
       "original": {
-        "owner": "notashelf",
-        "repo": "nvf",
-        "type": "github"
+        "path": "/home/shrimp/nvf",
+        "type": "path"
       }
     },
     "pre-commit-hooks": {

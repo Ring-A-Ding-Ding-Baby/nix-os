@@ -1,4 +1,8 @@
-{inputs, ...}: let
+{
+  inputs,
+  codelldb,
+  ...
+}: let
   dag = inputs.nvf.lib.nvim.dag;
 in {
   programs.nvf = {
@@ -6,6 +10,7 @@ in {
     enableManpages = true;
     settings = {
       vim = {
+        globals.editorconfig = true;
         autocomplete = {
           blink-cmp.enable = true;
           blink-cmp.setupOpts.signature.enabled = true;
@@ -28,11 +33,11 @@ in {
           rust = {
             enable = true;
             crates.enable = true;
-            dap.enable = false;
           };
           python.enable = true;
           nix.enable = true;
           nix.lsp.server = "nixd";
+          markdown.enable = true;
         };
         options = {
           autoindent = true;
@@ -90,7 +95,9 @@ in {
             };
           };
         };
+        mini.jump2d.enable = true;
         ui = {
+          illuminate.enable = true;
           borders.enable = false;
           borders.globalStyle = "none";
           breadcrumbs.enable = true;
@@ -98,6 +105,7 @@ in {
         };
         visuals = {
           indent-blankline.enable = true;
+          rainbow-delimiters.enable = true;
           nvim-web-devicons.enable = true;
         };
         statusline.lualine.enable = true;
@@ -109,7 +117,6 @@ in {
             enable = true;
           };
         };
-
         terminal = {
           toggleterm.enable = true;
         };

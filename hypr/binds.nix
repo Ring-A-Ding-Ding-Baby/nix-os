@@ -2,6 +2,7 @@
   mod = "SUPER";
   submap_reset = "Q";
   audio_control_mode = "A";
+  visual_control_mode = "V";
 in {
   wayland.windowManager.hyprland.settings = {
     binds = {
@@ -80,6 +81,7 @@ in {
       "${mod}, W, exec, wezterm start --class popup -- wifitui"
       "${mod}, R, submap, RESIZE"
       "${mod}, ${audio_control_mode}, submap, AUDIO"
+      "${mod}, ${visual_control_mode}, submap, VISUAL"
     ];
 
     binde = [
@@ -91,6 +93,11 @@ in {
   };
 
   wayland.windowManager.hyprland.extraConfig = ''
+
+    submap = VISUAL
+
+    submap = reset
+
     submap = RESIZE
     binde = , H, resizeactive, -20 0
     binde = , L, resizeactive, 20 0

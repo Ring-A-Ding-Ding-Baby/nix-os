@@ -26,6 +26,7 @@ in {
   };
   home.packages = with pkgs; [
     nordzy-cursor-theme
+    libreoffice
     brightnessctl
     prismlauncher
     playerctl
