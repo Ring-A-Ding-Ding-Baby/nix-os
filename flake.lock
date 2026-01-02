@@ -642,6 +642,27 @@
         "type": "github"
       }
     },
+    "ndg": {
+      "inputs": {
+        "nixpkgs": [
+          "nvf",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1765720983,
+        "narHash": "sha256-tWtukpABmux6EC/FuCJEgA1kmRjcRPtED44N+GGPq+4=",
+        "owner": "feel-co",
+        "repo": "ndg",
+        "rev": "f399ace8bb8e1f705dd8942b24d207aa4d75c936",
+        "type": "github"
+      },
+      "original": {
+        "owner": "feel-co",
+        "repo": "ndg",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1715266358,
@@ -732,20 +753,24 @@
         "flake-compat": "flake-compat_3",
         "flake-parts": "flake-parts_2",
         "mnw": "mnw",
+        "ndg": "ndg",
         "nixpkgs": [
           "nixpkgs"
         ],
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1765614188,
-        "narHash": "sha256-TWNBuIlAschX32kKgAl3gGKdUoTPXhlZnp4hh+/YQRA=",
-        "path": "/home/shrimp/nvf",
-        "type": "path"
+        "lastModified": 1767369300,
+        "narHash": "sha256-QV+tdP2bS+PJBcp4YHhqpMTzcxsxGaS/d6cKMCJ4PnA=",
+        "owner": "notashelf",
+        "repo": "nvf",
+        "rev": "9c75c2a199af39fc95fb203636ce97d070ca3973",
+        "type": "github"
       },
       "original": {
-        "path": "/home/shrimp/nvf",
-        "type": "path"
+        "owner": "notashelf",
+        "repo": "nvf",
+        "type": "github"
       }
     },
     "pre-commit-hooks": {

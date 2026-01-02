@@ -54,5 +54,9 @@
     upower.enable = true;
     gnome.gnome-keyring.enable = true;
     openssh.enable = true;
+    xray = {
+      enable = true;
+      settingsFile = "/etc/xray/config.json";
+    };
   };
 }

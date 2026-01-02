@@ -5,8 +5,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvf = {
-      #url = "github:notashelf/nvf";
-      url = "path:/home/shrimp/nvf";
+      url = "github:notashelf/nvf";
+      #url = "path:/home/shrimp/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";

@@ -1,8 +1,4 @@
-{
-  inputs,
-  codelldb,
-  ...
-}: let
+{inputs, ...}: let
   dag = inputs.nvf.lib.nvim.dag;
 in {
   programs.nvf = {
@@ -11,9 +7,9 @@ in {
     settings = {
       vim = {
         globals.editorconfig = true;
+        autopairs.nvim-autopairs.enable = true;
         autocomplete = {
-          blink-cmp.enable = true;
-          blink-cmp.setupOpts.signature.enabled = true;
+          nvim-cmp.enable = true;
         };
         treesitter.indent.disable = ["nix"];
         lsp = {
@@ -30,17 +26,29 @@ in {
           enableTreesitter = true;
           enableDAP = true;
           java.enable = true;
+          ts = {
+            enable = true;
+            extraDiagnostics.enable = true;
+            extensions = {
+              ts-error-translator.enable = true;
+            };
+          };
           rust = {
             enable = true;
             crates.enable = true;
           };
           python.enable = true;
-          nix.enable = true;
-          nix.lsp.server = "nixd";
+          nix = {
+            enable = true;
+            lsp.servers = ["nixd"];
+          };
           markdown.enable = true;
         };
         options = {
           autoindent = true;
+        };
+        comments = {
+          comment-nvim.enable = true;
         };
         binds = {
           whichKey = {
@@ -100,7 +108,10 @@ in {
           illuminate.enable = true;
           borders.enable = false;
           borders.globalStyle = "none";
-          breadcrumbs.enable = true;
+          breadcrumbs = {
+            enable = true;
+            navbuddy.enable = true;
+          };
           colorizer.enable = true;
         };
         visuals = {
@@ -120,6 +131,12 @@ in {
         terminal = {
           toggleterm.enable = true;
         };
+        pluginRC.illuminate = dag.entryAfter ["vim-illuminate"] ''
+          vim.api.nvim_set_hl(0, "IlluminatedWordText",  { link = "Visual" })
+          vim.api.nvim_set_hl(0, "IlluminatedWordRead",  { link = "Visual" })
+          vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
+        '';
+
         pluginRC.dap-signs = dag.entryAfter ["nvim-dap"] ''
           vim.fn.sign_define('DapBreakpoint',          { text = '●', texthl = 'DiagnosticSignError'})
           vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'DiagnosticSignWarn'})

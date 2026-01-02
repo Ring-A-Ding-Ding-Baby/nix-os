@@ -25,6 +25,7 @@ in {
     #};
   };
   home.packages = with pkgs; [
+    simple-mtpfs
     nordzy-cursor-theme
     libreoffice
     brightnessctl
@@ -65,19 +66,25 @@ in {
     vulkan-tools
     discord
     spotify
+    gpg-tui
+    gnupg
+    pinentry-curses
+    protontricks
+    pass
   ];
 
   programs.git = {
     enable = true;
     settings.user.email = "ebachvictor@gmail.com";
     settings.user.name = "Ring-A-Ding-Ding-Baby";
+    settings.pull.rebase = true;
   };
 
   programs.diff-highlight = {
     enable = true;
     enableGitIntegration = true;
   };
-
+  programs.gpg.enable = true;
   programs.home-manager.enable = true;
   programs.wezterm = {
     enable = true;
@@ -90,6 +97,11 @@ in {
       }'';
   };
   services = {
+    gpg-agent = {
+      enable = true;
+      pinentry.package = pkgs.pinentry-curses;
+      pinentry.program = "pinentry-curses";
+    };
     hypridle = {
       enable = true;
       settings = {

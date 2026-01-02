@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
   pkgs,
@@ -23,14 +20,17 @@
 
   boot.initrd.luks.devices."luks-7bc4790b-bcfd-45ff-8327-c8779ce4ae2b".device = "/dev/disk/by-uuid/7bc4790b-bcfd-45ff-8327-c8779ce4ae2b";
   networking.hostName = "shrimp_shack";
-
+  networking.nftables.enable = true;
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "systemd-resolved";
 
   time.timeZone = "Asia/Tbilisi";
 
   i18n.defaultLocale = "en_US.UTF-8";
-
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "ru_RU.UTF-8/UTF-8"
+  ];
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -140,6 +140,7 @@
     wget
     file
     htop
+    whois
     tree
     fd
     ripgrep
@@ -151,6 +152,7 @@
     zig
     jq
     wl-clipboard
+    lsof
   ];
 
   environment.variables = {
