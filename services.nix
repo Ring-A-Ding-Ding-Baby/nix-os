@@ -59,4 +59,20 @@
       settingsFile = "/etc/xray/config.json";
     };
   };
+  systemd.services.xray = {
+    serviceConfig = {
+      ExecStartPre = [
+        "-${pkgs.iproute2}/bin/ip rule add fwmark 255 lookup main priority 100"
+        "-${pkgs.iproute2}/bin/ip rule add fwmark 1 lookup 100 priority 200"
+        "-${pkgs.iproute2}/bin/ip route add local 0.0.0.0/0 dev lo table 100"
+        "-${pkgs.iproute2}/bin/ip -6 route add local ::/0 dev lo table 100"
+      ];
+      ExecStopPost = [
+        "-${pkgs.iproute2}/bin/ip rule del fwmark 255 lookup main priority 100"
+        "-${pkgs.iproute2}/bin/ip rule del fwmark 1 lookup 100"
+        "-${pkgs.iproute2}/bin/ip route del local 0.0.0.0/0 dev lo table 100"
+        "-${pkgs.iproute2}/bin/ip -6 route del local ::/0 dev lo table 100"
+      ];
+    };
+  };
 }

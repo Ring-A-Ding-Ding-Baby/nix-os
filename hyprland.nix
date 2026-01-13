@@ -11,7 +11,7 @@
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    systemd.enable = false;
+    #systemd.enable = false;
     settings = {
       monitor = ["eDP-1, preferred, auto, 1.0"];
 

@@ -11,7 +11,9 @@ in {
         autocomplete = {
           nvim-cmp.enable = true;
         };
-        treesitter.indent.disable = ["nix"];
+        treesitter = {
+          indent.disable = ["nix" "c" "rust" "c++"];
+        };
         lsp = {
           enable = true;
           formatOnSave = true;
@@ -26,6 +28,11 @@ in {
           enableTreesitter = true;
           enableDAP = true;
           java.enable = true;
+          json.enable = true;
+          clang = {
+            enable = true;
+            cHeader = true;
+          };
           ts = {
             enable = true;
             extraDiagnostics.enable = true;
@@ -43,9 +50,6 @@ in {
             lsp.servers = ["nixd"];
           };
           markdown.enable = true;
-        };
-        options = {
-          autoindent = true;
         };
         comments = {
           comment-nvim.enable = true;

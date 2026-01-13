@@ -3,6 +3,7 @@
   submap_reset = "Q";
   audio_control_mode = "A";
   visual_control_mode = "V";
+  gaming_workspace = "5";
 in {
   wayland.windowManager.hyprland.settings = {
     binds = {
@@ -15,8 +16,9 @@ in {
     windowrule = [
       "workspace 2, class:(brave-browser)"
       "workspace 3, class:(jetbrains.*)"
-      "workspace 5, title:^(PCSX2.*)$"
-      "workspace 5, class:^(steam|org.prismlauncher.PrismLauncher)$"
+      "workspace ${gaming_workspace}, title:^(PCSX2.*)$"
+      "workspace ${gaming_workspace}, class:(PPSSPP.*)"
+      "workspace ${gaming_workspace}, class:^(steam|org.prismlauncher.PrismLauncher)$"
       "workspace 8, class:(Spotify)"
       "workspace 9, class:(discord)"
       "workspace 10, class:(org.telegram.desktop)"

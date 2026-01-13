@@ -38,6 +38,7 @@ in {
     unzip
     hyprlock
     hypridle
+    ppsspp
     pcsx2
     wlogout
     hyprpaper
@@ -51,6 +52,8 @@ in {
     wezterm
     waybar
     telegram-desktop
+    chromium
+    python3
     brave
     grim
     slurp
