@@ -84,7 +84,6 @@
       '';
     };
   };
-  time.timeZone = "Asia/Tbilisi";
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.supportedLocales = [
@@ -201,6 +200,7 @@
     wget
     htop
     traceroute
+    tcpdump
     dig
     mtr
     whois
@@ -219,6 +219,9 @@
     lsof
     tealdeer
     openssl
+    man-db
+    man-pages
+    man-pages-posix
   ];
 
   environment.variables = {

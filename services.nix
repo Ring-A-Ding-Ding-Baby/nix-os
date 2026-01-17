@@ -1,6 +1,41 @@
 {pkgs, ...}: {
   services = {
     zerotierone.enable = true;
+    unbound = {
+      enable = true;
+
+      settings = {
+        server = {
+          interface = ["127.0.0.1" "::1"];
+          port = 53535;
+
+          access-control = ["127.0.0.0/8 allow" "::1 allow"];
+
+          hide-identity = "yes";
+          hide-version = "yes";
+          qname-minimisation = "yes";
+        };
+
+        forward-zone = [
+          {
+            name = "opensphere.tech.";
+            forward-tls-upstream = "yes";
+            forward-addr = [
+              "1.1.1.1@853#cloudflare-dns.com"
+              "1.0.0.1@853#cloudflare-dns.com"
+            ];
+          }
+
+          {
+            name = ".";
+            forward-addr = [
+              "127.0.0.1@53"
+              "::1@53"
+            ];
+          }
+        ];
+      };
+    };
     resolved = {
       enable = true;
       dnssec = "allow-downgrade"; # safe default
@@ -21,6 +56,8 @@
         "2001:4860:4860::8844"
       ];
     };
+
+    automatic-timezoned.enable = true;
 
     xserver.xkb = {
       layout = "us, ru";
