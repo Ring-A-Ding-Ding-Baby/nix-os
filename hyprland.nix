@@ -42,7 +42,7 @@ in {
       input = {
         kb_layout = "us,ru";
         kb_options = "grp:win_space_toggle";
-        follow_mouse = 2;
+        follow_mouse = 3;
         repeat_delay = 300;
         repeat_rate = 40;
         touchpad = {natural_scroll = true;};
@@ -67,8 +67,8 @@ in {
   services.hyprpaper = {
     enable = true;
     settings = {
-      preload = ["${solid}"];
-      wallpaper = [",${solid}"];
+      preload = ["${config.home.homeDirectory}/wallpapers/wallpaper.jpg"];
+      wallpaper = [",${config.home.homeDirectory}/wallpapers/wallpaper.jpg"];
     };
   };
 }

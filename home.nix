@@ -59,6 +59,7 @@ in {
     slurp
     bluetuith
     wiremix
+    gradle
     rustup
     rust-bindgen
     vlc

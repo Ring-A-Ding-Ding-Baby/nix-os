@@ -3,7 +3,9 @@
   submap_reset = "Q";
   audio_control_mode = "A";
   visual_control_mode = "V";
+  programming_workspace = "3";
   gaming_workspace = "5";
+  class_programming = "class:(jetbrains.*|Code)";
 in {
   wayland.windowManager.hyprland.settings = {
     binds = {
@@ -11,21 +13,27 @@ in {
       allow_workspace_cycles = true;
     };
     animation = [
-      "windows, 1, 10, default, popin"
+      # "windows, 1, 10, default, popin"
     ];
     windowrule = [
       "workspace 2, class:(brave-browser)"
-      "workspace 3, class:(jetbrains.*)"
+      "workspace ${programming_workspace}, ${class_programming}"
       "workspace ${gaming_workspace}, title:^(PCSX2.*)$"
       "workspace ${gaming_workspace}, class:(PPSSPP.*)"
       "workspace ${gaming_workspace}, class:^(steam|org.prismlauncher.PrismLauncher)$"
       "workspace 8, class:(Spotify)"
       "workspace 9, class:(discord)"
       "workspace 10, class:(org.telegram.desktop)"
+
       "float,         class:popup"
       "center,        class:popup"
       "size 60% 60%,  class:popup"
       "dimaround,     class:popup"
+
+      "size 70% 70%,     ${class_programming}, floating:1"
+      "persistentsize,  ${class_programming}, floating:1"
+      "noanim,  ${class_programming}, floating:1"
+      "center,           ${class_programming}, floating:1"
     ];
 
     bind = [

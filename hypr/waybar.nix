@@ -12,8 +12,9 @@ in {
 
     settings.mainbar = {
       spacing = 10;
-      layer = "top";
+      layer = "bottom";
       position = "top";
+      exclusive = true;
       modules-left = ["hyprland/workspaces"];
       modules-center = ["hyprland/submap"];
       modules-right = ["mpris" "pulseaudio" "network" "cpu" "memory" "clock" "battery"];
@@ -77,6 +78,11 @@ in {
         };
       };
     };
+    style = ''
+      window#waybar {
+        background-color:transparent;
+      }
+    '';
 
     #style = style.css;
   };

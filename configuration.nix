@@ -233,6 +233,8 @@
     iosevka
     nerd-fonts.iosevka
     nerd-fonts.iosevka-term
+    fira-code
+    jetbrains-mono
   ];
 
   console = {
