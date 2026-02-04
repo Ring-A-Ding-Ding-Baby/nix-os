@@ -109,6 +109,7 @@ in {
         };
         mini.jump2d.enable = true;
         ui = {
+          nvim-highlight-colors.enable = true;
           illuminate.enable = true;
           borders.enable = false;
           borders.globalStyle = "none";

@@ -132,7 +132,6 @@
     isNormalUser = true;
     description = "shrimp";
     extraGroups = ["networkmanager" "wheel" "docker" "input"];
-    packages = with pkgs; [];
   };
 
   programs.uwsm = {
@@ -145,16 +144,47 @@
     #};
   };
 
-  programs.hyprland = {
+  programs.hyprland = let
+    hypr-pkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
+  in {
     enable = true;
     withUWSM = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package = hypr-pkgs.hyprland;
+    portalPackage = hypr-pkgs.xdg-desktop-portal-hyprland;
   };
 
   stylix = {
     enable = true;
 
-    base16Scheme = basix.schemeData.base24."banana-blueberry";
+    #base16Scheme = basix.schemeData.base24."banana-blueberry";
+    base16Scheme = {
+      base00 = "05090b"; # Abyss — main bg
+      base01 = "0b1317"; # Deep Slate — panels
+      base02 = "121d22"; # Charcoal Blue — selection bg
+      base03 = "1a282e"; # Storm Glass — inactive ui / comments
+      base04 = "2b3a41"; # Steel Fog — borders / disabled
+
+      base05 = "c7d6dc"; # Frost Text — main text
+      base06 = "9fb2bb"; # Mist Text — sec text
+      base07 = "f2feff"; # Ice White — highlights / titles
+
+      base08 = "97b7b3"; # now sea-ash (error/critical but muted)
+      base09 = "8fb4ad"; # muted sea-teal (urgent)
+      base0A = "9fc2bc"; # pale algae-glass (warning)
+      base0B = "82b9ad"; # calm mint-teal (success)
+      base0C = "84b8bf"; # fog aqua (info)
+      base0D = "86aeb1"; # desat teal (primary)
+      base0E = "7fa6a1"; # cold sage-teal (secondary)
+      base0F = "9bbfba"; # glacial teal-mist (tertiary)
+
+      base12 = "a6c6c1"; # bright muted error
+      base13 = "b5d2cb"; # bright warning-ish
+      base14 = "9ad0c4"; # bright success
+      base15 = "9cced2"; # bright info
+      base16 = "a8c7c3"; # bright primary
+      base17 = "ffffff"; # max white
+    };
+
     autoEnable = true;
     fonts = {
       monospace = {
@@ -190,7 +220,12 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
 
   environment.systemPackages = with pkgs; [
     wifitui.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -222,6 +257,7 @@
     man-db
     man-pages
     man-pages-posix
+    pwgen
   ];
 
   environment.variables = {

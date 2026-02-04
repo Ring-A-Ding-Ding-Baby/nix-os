@@ -1,23 +1,17 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{config, ...}: let
   c = config.lib.stylix.colors.withHashtag;
-  solid = pkgs.runCommand "stylix-solid.png" {buildInputs = [pkgs.imagemagick];} ''
-    convert -size 1920x1080 xc:"${c.base0F}" "$out"
-  '';
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    #systemd.enable = false;
+    systemd.enable = false;
     settings = {
       monitor = ["eDP-1, preferred, auto, 1.0"];
 
       decoration = {
         rounding = 0;
-        dim_inactive = true;
+        active_opacity = 1.0;
+        inactive_opacity = 0.8;
+        #dim_inactive = true;
       };
       group.groupbar = {
         render_titles = false;
@@ -58,7 +52,6 @@ in {
       ];
 
       exec-once = [
-        "waybar"
         "wl-paste --watch cliphist store"
       ];
     };

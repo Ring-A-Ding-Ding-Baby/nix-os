@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
   c = config.lib.stylix.colors;
@@ -75,6 +76,7 @@ in {
     pinentry-curses
     protontricks
     pass
+    yazi
   ];
 
   programs.git = {
@@ -160,43 +162,102 @@ in {
     };
   };
   programs = {
+    yazi = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
     hyprlock = {
       enable = true;
       settings = {
+        background = [{path = "${config.home.homeDirectory}/wallpapers/wallpaper.jpg";}];
         general = {
           hide_cursor = true;
           ignore_empty_input = true;
         };
+
+        label = {
+          text = "$LAYOUT[E,R]";
+          halign = "right";
+          valign = "top";
+          font_size = 14;
+          position = "-10,-10";
+        };
+
         input-field = [
           {
-            halign = "center";
-            valign = "center";
+            halign = "left";
+            valign = "top";
             position = "0, 0";
-            size = "500, 500";
+            size = "450, 50";
             rounding = 0;
             outline_thickness = 0;
-            outer_color = rgb c.base00;
-            inner_color = rgb c.base00;
+            outer_color = "rgba(0,0,0,0)";
+            inner_color = "rgba(0,0,0,0)";
             font_color = rgb c.base05;
 
             dots_size = 0.3;
-            dots_text_format = "👌🏼";
+            dots_text_format = "+";
             dots_spacing = 0.0;
-            placeholder_text = "🫵🏻";
-            fail_text = "🖕🏻";
-            dots_center = true;
+            dots_center = false;
+            placeholder_text = "";
+            fail_text = "";
             fade_on_empty = false;
             fade_timeout = 0;
-
-            fail_color = rgb c.base00;
-            check_color = rgb c.base00;
+            color = "rgba(0,0,0,0)";
+            fail_color = "rgba(0,0,0,0)";
+            check_color = "rgba(0,0,0,0)";
           }
         ];
-
-        background = [{color = rgb c.base00;}];
       };
     };
     wlogout.enable = true;
+  };
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-termfilechooser
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      xdgOpenUsePortal = true;
+
+      config = {
+        common = {
+          default = ["hyprland" "gtk"];
+          "org.freedesktop.impl.portal.FileChooser" = ["termfilechooser"];
+        };
+      };
+    };
+    desktopEntries.yazi = {
+      name = "Yazi";
+      genericName = "File Manager";
+      comment = "Terminal file manager";
+      categories = ["System" "FileManager" "FileTools" "ConsoleOnly"];
+      terminal = true;
+      exec = "${pkgs.wezterm}/bin/wezterm start --class popup -- ${pkgs.yazi}/bin/yazi %u";
+      mimeType = ["inode/directory"];
+    };
+
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "inode/directory" = ["yazi.desktop"];
+      };
+    };
+
+    configFile."xdg-desktop-portal-termfilechooser/config".text = ''
+      [filechooser]
+      cmd='${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh'
+      create_help_file=0
+      default_dir=$HOME
+      env=TERMCMD='${pkgs.wezterm}/bin/wezterm start --class popup --'
+          EDITOR=nvim
+      open_mode=suggested
+      save_mode=last
+    '';
   };
 
   stylix = {

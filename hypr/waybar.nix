@@ -9,6 +9,7 @@
 in {
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
 
     settings.mainbar = {
       spacing = 10;
@@ -17,29 +18,69 @@ in {
       exclusive = true;
       modules-left = ["hyprland/workspaces"];
       modules-center = ["hyprland/submap"];
-      modules-right = ["mpris" "pulseaudio" "network" "cpu" "memory" "clock" "battery"];
+      modules-right = ["mpris" "pulseaudio" "network" "cpu" "memory" "hyprland/language" "clock" "battery"];
 
       clock = {format = "{:%a %d %b %H:%M}";};
 
+      "hyprland/language" = {
+        format = "{}";
+        format-en = "E";
+        format-ru = "R";
+      };
+
       cpu = {
-        format = "{usage}%  ";
+        format = "{icon0} {icon1} {icon2} {icon3} {icon4} {icon5} {icon6} {icon7}";
+        format-icons = [
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+        ];
+        interval = 1;
       };
 
       memory = {
-        interval = 30;
-        format = "{used:0.1f}G/{total:0.1f}G  ";
+        interval = 2;
+        format = "{used:0.1f}G  ";
       };
 
       battery = {
         format = "{icon}";
-        format-icons = ["𜺜  " "🬭  " "🬭🬭 " "🬭🬭🬭" "▅🬭🬭" "▅▅🬭" "▅▅▅" "█▅▅" "██▅" "███"];
+        format-charging = " ";
+        format-plugged = " ";
+        format-icons = [
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+          " "
+        ];
       };
 
       network = {
-        format-wifi = "{essid} {signalStrength}%  ";
-        format-ethernet = "{ipaddr}/{cidr} 󰈁";
-        format-disconnected = "󰈂 ";
-        interval = 10;
+        format-wifi = "{signalStrength} 󰢾 ";
+        format-ethernet = "󰈀 ";
+        format-disconnected = "󰌙 ";
+        interval = 1;
       };
 
       pulseaudio = {
@@ -50,8 +91,8 @@ in {
       };
 
       mpris = {
-        format = "{player_icon} {status_icon} {title}●{artist}●{album}";
-        format-paused = "{player_icon} {status_icon} {title}●{artist}●{album}";
+        format = "{player_icon} {status_icon} {title}●{artist}";
+        format-paused = "{player_icon} {status_icon} {title}●{artist}";
         player-icons = {
           default = " ";
           brave = " ";
@@ -78,6 +119,7 @@ in {
         };
       };
     };
+
     style = ''
       window#waybar {
         background-color:transparent;
