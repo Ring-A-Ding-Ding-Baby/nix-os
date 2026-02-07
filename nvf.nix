@@ -11,9 +11,6 @@ in {
         autocomplete = {
           nvim-cmp.enable = true;
         };
-        treesitter = {
-          indent.disable = ["nix" "c" "rust" "c++"];
-        };
         lsp = {
           enable = true;
           formatOnSave = true;
@@ -29,6 +26,7 @@ in {
           enableDAP = true;
           java.enable = true;
           json.enable = true;
+          css.enable = true;
           clang = {
             enable = true;
             cHeader = true;

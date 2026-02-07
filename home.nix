@@ -1,16 +1,14 @@
 {
   pkgs,
   config,
-  lib,
   ...
 }: let
   c = config.lib.stylix.colors;
-  rgb = hex: "rgb(${hex})";
+  u = config.home.username;
+  userPortals = "/etc/profiles/per-user/${u}/share/xdg-desktop-portal/portals";
 in {
   imports = [
     ./hyprland.nix
-    ./hypr/binds.nix
-    ./hypr/waybar.nix
   ];
 
   home.username = "shrimp";
@@ -21,11 +19,10 @@ in {
     package = pkgs.nordzy-cursor-theme;
     gtk.enable = true;
     x11.enable = true;
-    #hyprcursor = {
-    #  enable = true;
-    #};
   };
   home.packages = with pkgs; [
+    waybar-module-music
+    zenity
     simple-mtpfs
     nordzy-cursor-theme
     libreoffice
@@ -48,7 +45,7 @@ in {
     notify-desktop
     bemenu
     walker
-    jetbrains.idea-community-src
+    jetbrains.idea-oss
     vscode
     wezterm
     waybar
@@ -77,6 +74,8 @@ in {
     protontricks
     pass
     yazi
+    zscroll
+    git-filter-repo
   ];
 
   programs.git = {
@@ -110,42 +109,6 @@ in {
     };
     hypridle = {
       enable = true;
-      settings = {
-        general = {
-          lock_cmd = "pidof hyprlock || hyprlock";
-          before_sleep_cmd = "loginctl lock-session";
-          after_sleep_cmd = "hyprctl dispatch dpms on";
-        };
-        listener = [
-          {
-            timeout = 150;
-            on-timeout = "brightnessctl -s set 10";
-            on-resume = "brightnessctl -r";
-          }
-
-          {
-            timeout = 150;
-            on-timeout = "brightnessctl -sd rgb:kbd_backlight set 0";
-            on-resume = "brightnessctl -rd rgb:kbd_backlight";
-          }
-
-          {
-            timeout = 300;
-            on-timeout = "loginctl lock-session";
-          }
-
-          {
-            timeout = 330;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
-          }
-
-          {
-            timeout = 1800;
-            on-timeout = "systemctl suspend";
-          }
-        ];
-      };
     };
 
     playerctld.enable = true;
@@ -169,47 +132,6 @@ in {
 
     hyprlock = {
       enable = true;
-      settings = {
-        background = [{path = "${config.home.homeDirectory}/wallpapers/wallpaper.jpg";}];
-        general = {
-          hide_cursor = true;
-          ignore_empty_input = true;
-        };
-
-        label = {
-          text = "$LAYOUT[E,R]";
-          halign = "right";
-          valign = "top";
-          font_size = 14;
-          position = "-10,-10";
-        };
-
-        input-field = [
-          {
-            halign = "left";
-            valign = "top";
-            position = "0, 0";
-            size = "450, 50";
-            rounding = 0;
-            outline_thickness = 0;
-            outer_color = "rgba(0,0,0,0)";
-            inner_color = "rgba(0,0,0,0)";
-            font_color = rgb c.base05;
-
-            dots_size = 0.3;
-            dots_text_format = "+";
-            dots_spacing = 0.0;
-            dots_center = false;
-            placeholder_text = "";
-            fail_text = "";
-            fade_on_empty = false;
-            fade_timeout = 0;
-            color = "rgba(0,0,0,0)";
-            fail_color = "rgba(0,0,0,0)";
-            check_color = "rgba(0,0,0,0)";
-          }
-        ];
-      };
     };
     wlogout.enable = true;
   };
@@ -219,18 +141,32 @@ in {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-termfilechooser
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
       ];
-      xdgOpenUsePortal = true;
 
-      config = {
-        common = {
-          default = ["hyprland" "gtk"];
-          "org.freedesktop.impl.portal.FileChooser" = ["termfilechooser"];
-        };
+      config.common = {
+        default = ["*"];
+        "org.freedesktop.impl.portal.FileChooser" = "termfilechooser.portal";
       };
     };
+    #THIS SHIT BELOW I DO NOT LIKE THIS APPROACH REALLY BUT NIX FUCKUPS XDG FR FR !!!!
+    # I need to rethink my life or/and this uncanny hackery
+    configFile."systemd/user/xdg-desktop-portal.service.d/override.conf".text = ''
+      [Service]
+      Environment="NIX_XDG_DESKTOP_PORTAL_DIR=${userPortals}"
+    '';
+
+    configFile."xdg-desktop-portal-termfilechooser/config" = {
+      force = true;
+      text = ''
+        [filechooser]
+        cmd=yazi-wrapper.sh
+        default_dir=$HOME
+        env=TERMCMD=wezterm start --class popup --
+        open_mode = suggested
+        save_mode = last
+      '';
+    };
+
     desktopEntries.yazi = {
       name = "Yazi";
       genericName = "File Manager";
@@ -247,17 +183,6 @@ in {
         "inode/directory" = ["yazi.desktop"];
       };
     };
-
-    configFile."xdg-desktop-portal-termfilechooser/config".text = ''
-      [filechooser]
-      cmd='${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh'
-      create_help_file=0
-      default_dir=$HOME
-      env=TERMCMD='${pkgs.wezterm}/bin/wezterm start --class popup --'
-          EDITOR=nvim
-      open_mode=suggested
-      save_mode=last
-    '';
   };
 
   stylix = {
@@ -266,7 +191,56 @@ in {
     fonts.sizes.desktop = 11;
     polarity = "dark";
     targets.hyprlock.enable = false;
-    targets.waybar.addCss = true;
+    targets.hyprland.enable = false;
+    targets.waybar.enable = false;
+  };
+  xdg.configFile."stylix/palette.css".text = ''
+    @define-color  base00 #${c.base00};
+    @define-color  base01 #${c.base01};
+    @define-color  base02 #${c.base02};
+    @define-color  base03 #${c.base03};
+    @define-color  base04 #${c.base04};
+    @define-color  base05 #${c.base05};
+    @define-color  base06 #${c.base06};
+    @define-color  base07 #${c.base07};
+    @define-color  base08 #${c.base08};
+    @define-color  base09 #${c.base09};
+    @define-color  base0A #${c.base0A};
+    @define-color  base0B #${c.base0B};
+    @define-color  base0C #${c.base0C};
+    @define-color  base0D #${c.base0D};
+    @define-color  base0E #${c.base0E};
+    @define-color  base0F #${c.base0F};
+    @define-color  base10 #${c.base10};
+    @define-color  base11 #${c.base11};
+    @define-color  base12 #${c.base12};
+    @define-color  base13 #${c.base13};
+    @define-color  base14 #${c.base14};
+    @define-color  base15 #${c.base15};
+    @define-color  base16 #${c.base16};
+    @define-color  base17 #${c.base17};
+  '';
+
+  xdg.configFile."stylix/palette.conf" = {
+    enable = true;
+    text = ''
+      $base00 = rgb(${c.base00})
+      $base01 = rgb(${c.base01})
+      $base02 = rgb(${c.base02})
+      $base03 = rgb(${c.base03})
+      $base04 = rgb(${c.base04})
+      $base05 = rgb(${c.base05})
+      $base06 = rgb(${c.base06})
+      $base07 = rgb(${c.base07})
+      $base08 = rgb(${c.base08})
+      $base09 = rgb(${c.base09})
+      $base0A = rgb(${c.base0A})
+      $base0B = rgb(${c.base0B})
+      $base0C = rgb(${c.base0C})
+      $base0D = rgb(${c.base0D})
+      $base0E = rgb(${c.base0E})
+      $base0F = rgb(${c.base0F})
+    '';
   };
 
   home.stateVersion = "25.05";

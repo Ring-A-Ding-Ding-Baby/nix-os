@@ -20,6 +20,11 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    waybar-module-music = {
+      #url = "github:Andeskjerf/waybar-module-music";
+      url = "path:/home/shrimp/waybar-module-music";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -29,6 +34,7 @@
     basix,
     nvf,
     wifitui,
+    waybar-module-music,
     ...
   }: let
     system = "x86_64-linux";
@@ -40,12 +46,14 @@
       specialArgs = {inherit inputs basix wifitui codelldb;};
       modules = [
         ./configuration.nix
+        ({...}: {
+          nixpkgs.overlays = [waybar-module-music.overlays.default];
+        })
         stylix.nixosModules.stylix
         nvf.nixosModules.default
         ./nvf.nix
         home-manager.nixosModules.home-manager
         {
-          home-manager.backupFileExtension = "bckup";
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.shrimp = ./home.nix;
