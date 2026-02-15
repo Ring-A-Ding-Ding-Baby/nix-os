@@ -863,11 +863,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1770213521,
-        "narHash": "sha256-ZUGJ3xZQfDcKCSBi0Qw7pSXWc2zkU8SxDJfsA7Uv8JI=",
+        "lastModified": 1770703021,
+        "narHash": "sha256-gqb5psh3ydigaeAnOby4KwXAXtzU0uZK9AeRAYIw53g=",
         "owner": "notashelf",
         "repo": "nvf",
-        "rev": "9da5d517406c35b5bf738f446e5e51237f27b655",
+        "rev": "4d0d1884a00b32c034299fcd3e96f9e0cb68d23b",
         "type": "github"
       },
       "original": {
@@ -1113,8 +1113,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1770271325,
-        "narHash": "sha256-DpeaDmKk4ke1XVK0een5S/8ZpH64kTlzhp/U9off/u8=",
+        "lastModified": 0,
+        "narHash": "sha256-+esrhDcdjbuSs7Idizj29QlHWTO01FmmxxmKV8KRqNE=",
         "path": "/home/shrimp/waybar-module-music",
         "type": "path"
       },

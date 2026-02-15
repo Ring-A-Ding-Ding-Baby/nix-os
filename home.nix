@@ -11,8 +11,6 @@ in {
     ./hyprland.nix
   ];
 
-  home.username = "shrimp";
-  home.homeDirectory = "/home/shrimp";
   home.pointerCursor = {
     enable = true;
     name = "Nordzy-cursors-hyprcursor";
@@ -76,6 +74,7 @@ in {
     yazi
     zscroll
     git-filter-repo
+    npins
   ];
 
   programs.git = {
@@ -137,6 +136,7 @@ in {
   };
 
   xdg = {
+    enable = true;
     portal = {
       enable = true;
       extraPortals = with pkgs; [

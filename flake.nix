@@ -6,7 +6,6 @@
     };
     nvf = {
       url = "github:notashelf/nvf";
-      #url = "path:/home/shrimp/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
@@ -37,17 +36,15 @@
     waybar-module-music,
     ...
   }: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {inherit system;};
-    codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.adapter;
   in {
     nixosConfigurations."shrimp-shack" = nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = {inherit inputs basix wifitui codelldb;};
+      specialArgs = {inherit inputs basix wifitui;};
       modules = [
         ./configuration.nix
         ({...}: {
-          nixpkgs.overlays = [waybar-module-music.overlays.default];
+          nixpkgs.overlays = [
+            waybar-module-music.overlays.default
+          ];
         })
         stylix.nixosModules.stylix
         nvf.nixosModules.default
