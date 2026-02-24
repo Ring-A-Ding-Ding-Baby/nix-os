@@ -48,10 +48,10 @@ in {
     wezterm
     waybar
     telegram-desktop
-    chromium
     python3
     brave
     grim
+    arp-scan
     slurp
     bluetuith
     wiremix
@@ -224,6 +224,23 @@ in {
   xdg.configFile."stylix/palette.conf" = {
     enable = true;
     text = ''
+      $base00H = #${c.withHashtag.base00}
+      $base01H = #${c.withHashtag.base01}
+      $base02H = #${c.withHashtag.base02}
+      $base03H = #${c.withHashtag.base03}
+      $base04H = #${c.withHashtag.base04}
+      $base05H = #${c.withHashtag.base05}
+      $base06H = #${c.withHashtag.base06}
+      $base07H = #${c.withHashtag.base07}
+      $base08H = #${c.withHashtag.base08}
+      $base09H = #${c.withHashtag.base09}
+      $base0AH = #${c.withHashtag.base0A}
+      $base0BH = #${c.withHashtag.base0B}
+      $base0CH = #${c.withHashtag.base0C}
+      $base0DH = #${c.withHashtag.base0D}
+      $base0EH = #${c.withHashtag.base0E}
+      $base0FH = #${c.withHashtag.base0F}
+
       $base00 = rgb(${c.base00})
       $base01 = rgb(${c.base01})
       $base02 = rgb(${c.base02})
