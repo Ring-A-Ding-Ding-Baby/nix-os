@@ -44,7 +44,8 @@ in {
     bemenu
     walker
     jetbrains.idea-oss
-    vscode
+    jetbrains.clion
+    #vscode
     wezterm
     waybar
     telegram-desktop
