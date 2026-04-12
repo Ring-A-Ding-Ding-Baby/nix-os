@@ -10,6 +10,11 @@ in {
     enableManpages = true;
     settings = {
       vim = {
+        options = {
+          shiftwidth = 2;
+          tabstop = 2;
+          expandtab = true;
+        };
         startPlugins = [
           pkgs.vimPlugins.one-small-step-for-vimkind
         ];
@@ -178,6 +183,7 @@ in {
         terminal = {
           toggleterm.enable = true;
         };
+
         pluginRC.illuminate = dag.entryAfter ["vim-illuminate"] ''
           vim.api.nvim_set_hl(0, "IlluminatedWordText",  { link = "Visual" })
           vim.api.nvim_set_hl(0, "IlluminatedWordRead",  { link = "Visual" })
