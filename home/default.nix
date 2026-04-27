@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  nur,
   ...
 }: let
   c = config.lib.stylix.colors;
@@ -8,6 +9,7 @@
   userPortals = "/etc/profiles/per-user/${u}/share/xdg-desktop-portal/portals";
 in {
   imports = [
+    ./programs.nix 
     ./hyprland.nix
   ];
 
@@ -18,12 +20,17 @@ in {
     gtk.enable = true;
     x11.enable = true;
   };
+
   home.packages = with pkgs; [
+    breakpointHook
+    breakpointHookCntr
+    gdb
+    valgrind
+    system-config-printer
     waybar-module-music
     zenity
     simple-mtpfs
     nordzy-cursor-theme
-    libreoffice
     brightnessctl
     prismlauncher
     playerctl
@@ -43,9 +50,9 @@ in {
     notify-desktop
     bemenu
     walker
+    android-studio
     jetbrains.idea-oss
-    jetbrains.clion
-    #vscode
+    emacs
     wezterm
     waybar
     telegram-desktop
@@ -57,10 +64,7 @@ in {
     bluetuith
     wiremix
     gradle
-    rustup
-    rust-bindgen
     vlc
-    i3status-rust
     qbittorrent
     steam
     openmw
@@ -78,29 +82,6 @@ in {
     npins
   ];
 
-  programs.git = {
-    enable = true;
-    settings.user.email = "ebachvictor@gmail.com";
-    settings.user.name = "Ring-A-Ding-Ding-Baby";
-    settings.pull.rebase = true;
-  };
-
-  programs.diff-highlight = {
-    enable = true;
-    enableGitIntegration = true;
-  };
-  programs.gpg.enable = true;
-  programs.home-manager.enable = true;
-  programs.wezterm = {
-    enable = true;
-    enableZshIntegration = true;
-    extraConfig = ''
-      return {
-        font_size = 11.0,
-        enable_tab_bar = false,
-        font = wezterm.font("IosevkaTerm Nerd Font"),
-      }'';
-  };
   services = {
     gpg-agent = {
       enable = true;
@@ -123,17 +104,6 @@ in {
         anchor = "top-center";
       };
     };
-  };
-  programs = {
-    yazi = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    hyprlock = {
-      enable = true;
-    };
-    wlogout.enable = true;
   };
 
   xdg = {
@@ -189,12 +159,20 @@ in {
   stylix = {
     enable = true;
     autoEnable = true;
-    fonts.sizes.desktop = 11;
     polarity = "dark";
-    targets.hyprlock.enable = false;
-    targets.hyprland.enable = false;
-    targets.waybar.enable = false;
+    targets = {
+     hyprlock.enable = false;
+     hyprland.enable = false;
+     waybar.enable = false;
+     librewolf = {
+       enable = true;
+       colorTheme.enable = true;
+       colors.enable = true;
+       profileNames = ["detective_shrimp"];  
+     };
+    };
   };
+
   xdg.configFile."stylix/palette.css".text = ''
     @define-color  base00 #${c.base00};
     @define-color  base01 #${c.base01};

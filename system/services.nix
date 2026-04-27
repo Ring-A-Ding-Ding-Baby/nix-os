@@ -1,62 +1,17 @@
 {pkgs, ...}: {
   services = {
-    zerotierone.enable = true;
+    zerotierone.enable = false;
     unbound = {
       enable = true;
-
-      settings = {
-        server = {
-          interface = ["127.0.0.1" "::1"];
-          port = 53535;
-
-          access-control = ["127.0.0.0/8 allow" "::1 allow"];
-
-          hide-identity = "yes";
-          hide-version = "yes";
-          qname-minimisation = "yes";
-        };
-
-        forward-zone = [
-          {
-            name = "lv.opensphere.tech";
-            forward-tls-upstream = "yes";
-            forward-addr = [
-              "1.1.1.1@853#cloudflare-dns.com"
-              "1.0.0.1@853#cloudflare-dns.com"
-            ];
-          }
-
-          {
-            name = ".";
-            forward-addr = [
-              "127.0.0.1@53"
-              "::1@53"
-            ];
-          }
-        ];
-      };
     };
     resolved = {
       enable = true;
       settings = {
         Resolve = {
+          DNS = "127.0.0.1";
           DNSSEC = "allow-downgrade"; # safe default
           DNSOverTLS = "opportunistic"; # try DoT when available
           # Good anycast fallbacks (used if DHCP/VPN servers fail)
-          FallbackDNS = [
-            "1.1.1.1"
-            "1.0.0.1" # Cloudflare
-            "9.9.9.9"
-            "149.112.112.112" # Quad9
-            "8.8.8.8"
-            "8.8.4.4" # Google
-            "2606:4700:4700::1111"
-            "2606:4700:4700::1001"
-            "2620:fe::fe"
-            "2620:fe::9"
-            "2001:4860:4860::8888"
-            "2001:4860:4860::8844"
-          ];
         };
       };
     };
@@ -65,7 +20,23 @@
 
     xserver.xkb = {
       layout = "us, ru";
-      variant = "grp:win_space_toggle";
+      variant = "grp:super_space_toggle";
+      options = "caps:none";
+    };
+
+    keyd = {
+      enable = true;
+      keyboards = {
+        default = {
+          ids = ["*"];
+          settings = {
+            main = {
+              capslock = "leftmeta";
+              leftmeta = "capslock";
+            };
+          };
+        };
+      };
     };
 
     greetd = {
@@ -82,21 +53,28 @@
     };
     # Enable CUPS to print documents.
     printing.enable = true;
+    printing.drivers = with pkgs; [
+      epson-201401w
+      epson-escpr
+      epson-escpr2
+    ];
 
     # Enable sound with pipewire.
     pulseaudio.enable = false;
     pipewire = {
       enable = true;
+      audio.enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
+      
     };
     upower.enable = true;
     gnome.gnome-keyring.enable = true;
     openssh.enable = true;
     xray = {
-      enable = true;
+      enable = false;
       settingsFile = "/etc/xray/config.json";
     };
   };

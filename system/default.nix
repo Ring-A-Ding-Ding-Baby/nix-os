@@ -1,7 +1,6 @@
 {
   pkgs,
   wifitui,
-  inputs,
   ...
 }: {
   imports = [
@@ -9,6 +8,7 @@
     ./services.nix
     ./networking.nix
     ./stylix.nix
+    ./programs.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -69,31 +69,6 @@
     extraGroups = ["networkmanager" "wheel" "docker" "input"];
   };
 
-  programs.uwsm = {
-    enable = true;
-  };
-
-  programs.hyprland = let
-    hypr-pkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
-  in {
-    enable = true;
-    withUWSM = true;
-    package = hypr-pkgs.hyprland;
-    portalPackage = hypr-pkgs.xdg-desktop-portal-hyprland;
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-    histSize = 1000;
-    ohMyZsh = {
-      enable = true;
-      plugins = ["git" "vi-mode"];
-    };
-  };
-
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
@@ -103,9 +78,16 @@
   };
 
   environment.systemPackages = with pkgs; [
+    nixd
     wifitui.packages.${pkgs.stdenv.hostPlatform.system}.default
     wl-clipboard
-    vim
+    neovim
+    lua-language-server
+    lua51Packages.lua-lsp
+    lua51Packages.lua
+    lua51Packages.luarocks
+    lua51Packages.tree-sitter-cli
+    gnumake 
     file
     wget
     htop
@@ -143,17 +125,14 @@
   };
 
   fonts.packages = with pkgs; [
-    iosevka
-    nerd-fonts.iosevka
-    nerd-fonts.iosevka-term
-    fira-code
+    cozette
     jetbrains-mono
   ];
 
   console = {
     enable = true;
-    packages = [pkgs.terminus_font];
-    font = "ter-v22b";
+    packages = [pkgs.cozette];
+    font = "Cozette";
   };
 
   system.stateVersion = "25.05";

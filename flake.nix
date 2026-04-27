@@ -1,15 +1,11 @@
 {
   inputs = {
-    wifitui = {
-      url = "github:shazow/wifitui";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nvf = {
-      url = "github:notashelf/nvf";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nur = {
+      url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,36 +20,43 @@
       url = "path:/home/shrimp/waybar-module-music";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    wifitui = {
+      url = "github:shazow/wifitui";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
+    self,
     nixpkgs,
+    nur,
     stylix,
     home-manager,
     basix,
-    nvf,
     wifitui,
     waybar-module-music,
     ...
   }: let
   in {
+    out = nur;
     nixosConfigurations."shrimp-shack" = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs basix wifitui;};
+      specialArgs = {inherit inputs wifitui;};
       modules = [
-        ./configuration.nix
+        (import ./system)
         ({...}: {
           nixpkgs.overlays = [
             waybar-module-music.overlays.default
           ];
         })
         stylix.nixosModules.stylix
-        nvf.nixosModules.default
-        ./nvf.nix
         home-manager.nixosModules.home-manager
         {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.shrimp = ./home.nix;
+	  home-manager = {
+	    extraSpecialArgs = {inherit inputs nur;};
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.shrimp = import ./home;
+	  };
         }
       ];
     };
