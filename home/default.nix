@@ -3,13 +3,15 @@
   config,
   nur,
   ...
-}: let
+}:
+let
   c = config.lib.stylix.colors;
   u = config.home.username;
   userPortals = "/etc/profiles/per-user/${u}/share/xdg-desktop-portal/portals";
-in {
+in
+{
   imports = [
-    ./programs.nix 
+    ./programs.nix
     ./hyprland.nix
   ];
 
@@ -115,7 +117,7 @@ in {
       ];
 
       config.common = {
-        default = ["*"];
+        default = [ "*" ];
         "org.freedesktop.impl.portal.FileChooser" = "termfilechooser.portal";
       };
     };
@@ -142,16 +144,21 @@ in {
       name = "Yazi";
       genericName = "File Manager";
       comment = "Terminal file manager";
-      categories = ["System" "FileManager" "FileTools" "ConsoleOnly"];
+      categories = [
+        "System"
+        "FileManager"
+        "FileTools"
+        "ConsoleOnly"
+      ];
       terminal = true;
       exec = "${pkgs.wezterm}/bin/wezterm start --class popup -- ${pkgs.yazi}/bin/yazi %u";
-      mimeType = ["inode/directory"];
+      mimeType = [ "inode/directory" ];
     };
 
     mimeApps = {
       enable = true;
       defaultApplications = {
-        "inode/directory" = ["yazi.desktop"];
+        "inode/directory" = [ "yazi.desktop" ];
       };
     };
   };
@@ -161,15 +168,15 @@ in {
     autoEnable = true;
     polarity = "dark";
     targets = {
-     hyprlock.enable = false;
-     hyprland.enable = false;
-     waybar.enable = false;
-     librewolf = {
-       enable = true;
-       colorTheme.enable = true;
-       colors.enable = true;
-       profileNames = ["detective_shrimp"];  
-     };
+      hyprlock.enable = false;
+      hyprland.enable = false;
+      waybar.enable = false;
+      librewolf = {
+        enable = true;
+        colorTheme.enable = true;
+        colors.enable = true;
+        profileNames = [ "detective_shrimp" ];
+      };
     };
   };
 

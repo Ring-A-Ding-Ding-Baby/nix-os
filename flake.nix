@@ -26,39 +26,46 @@
     };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    nur,
-    stylix,
-    home-manager,
-    basix,
-    wifitui,
-    waybar-module-music,
-    ...
-  }: let
-  in {
-    out = nur;
-    nixosConfigurations."shrimp-shack" = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs wifitui;};
-      modules = [
-        (import ./system)
-        ({...}: {
-          nixpkgs.overlays = [
-            waybar-module-music.overlays.default
-          ];
-        })
-        stylix.nixosModules.stylix
-        home-manager.nixosModules.home-manager
-        {
-	  home-manager = {
-	    extraSpecialArgs = {inherit inputs nur;};
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.shrimp = import ./home;
-	  };
-        }
-      ];
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nur,
+      stylix,
+      home-manager,
+      basix,
+      wifitui,
+      waybar-module-music,
+      ...
+    }:
+    let
+      system = "x86_64-linux";
+    in
+    {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
+      nixosConfigurations."shrimp-shack" = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs wifitui; };
+        modules = [
+          (import ./system)
+          (
+            { ... }:
+            {
+              nixpkgs.overlays = [
+                waybar-module-music.overlays.default
+              ];
+            }
+          )
+          stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              extraSpecialArgs = { inherit inputs nur; };
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.shrimp = import ./home;
+            };
+          }
+        ];
+      };
     };
-  };
 }

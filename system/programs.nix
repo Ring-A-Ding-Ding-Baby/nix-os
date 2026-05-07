@@ -2,24 +2,43 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   programs = {
     uwsm = {
       enable = true;
     };
-    hyprland = let
-      hypr-pkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
-    in {
-      enable = true;
-      withUWSM = true;
-      package = hypr-pkgs.hyprland;
-      portalPackage = hypr-pkgs.xdg-desktop-portal-hyprland;
-    };
+    hyprland =
+      let
+        hypr-pkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
+      in
+      {
+        enable = true;
+        withUWSM = true;
+        package = hypr-pkgs.hyprland;
+        portalPackage = hypr-pkgs.xdg-desktop-portal-hyprland;
+      };
     neovim = {
       enable = true;
       defaultEditor = true;
       viAlias = true;
       vimAlias = true;
+    };
+    git = {
+      enable = true;
+      config = {
+        gpg = {
+          format = "ssh";
+        };
+      };
+    };
+    ssh = {
+      startAgent = true;
+      extraConfig = "
+      Host github.com
+	User git 
+        IdentityFile ~/.ssh/id_ed25519
+      ";
     };
     zsh = {
       enable = true;
@@ -29,7 +48,10 @@
       histSize = 1000;
       ohMyZsh = {
         enable = true;
-        plugins = ["git" "vi-mode"];
+        plugins = [
+          "git"
+          "vi-mode"
+        ];
       };
     };
   };

@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   networking = {
     hostName = "shrimp_shack";
     networkmanager.enable = true;

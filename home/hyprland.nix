@@ -1,6 +1,8 @@
-{config, ...}: let
+{ config, ... }:
+let
   c = config.lib.stylix.colors.withHashtag;
-in {
+in
+{
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = false;

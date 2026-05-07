@@ -2,7 +2,8 @@
   pkgs,
   wifitui,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ./services.nix
@@ -18,7 +19,8 @@
   boot.kernel.sysctl = {
     "net.ipv6.conf.all.forwarding" = 1;
   };
-  boot.initrd.luks.devices."luks-7bc4790b-bcfd-45ff-8327-c8779ce4ae2b".device = "/dev/disk/by-uuid/7bc4790b-bcfd-45ff-8327-c8779ce4ae2b";
+  boot.initrd.luks.devices."luks-7bc4790b-bcfd-45ff-8327-c8779ce4ae2b".device =
+    "/dev/disk/by-uuid/7bc4790b-bcfd-45ff-8327-c8779ce4ae2b";
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.supportedLocales = [
@@ -56,25 +58,34 @@
     enable = true;
     powerOnBoot = true;
     settings = {
-      General = {Experimental = true;};
+      General = {
+        Experimental = true;
+      };
     };
   };
 
   users.defaultUserShell = pkgs.zsh;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.shrimp = {
     isNormalUser = true;
     description = "shrimp";
-    extraGroups = ["networkmanager" "wheel" "docker" "input"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "input"
+    ];
   };
 
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -87,7 +98,8 @@
     lua51Packages.lua
     lua51Packages.luarocks
     lua51Packages.tree-sitter-cli
-    gnumake 
+    tuigreet
+    gnumake
     file
     wget
     htop
@@ -117,22 +129,27 @@
     pwgen
   ];
 
-  environment.pathsToLink = ["/share/zsh" "/share/applications"];
+  environment.pathsToLink = [
+    "/share/zsh"
+    "/share/applications"
+  ];
 
   environment.variables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
 
-  fonts.packages = with pkgs; [
-    cozette
-    jetbrains-mono
-  ];
+  fonts = {
+    # packages = with pkgs; [
+    #   cozette
+    # ];
+    #allowBitmaps = true;
+  };
 
   console = {
     enable = true;
-    packages = [pkgs.cozette];
-    font = "Cozette";
+    #packages = [pkgs.cozette];
+    #font = "${pkgs.cozette}/share/consolefonts/cozette12x26.psfu";
   };
 
   system.stateVersion = "25.05";

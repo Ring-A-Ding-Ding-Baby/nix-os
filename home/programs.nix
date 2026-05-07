@@ -1,14 +1,25 @@
-{pkgs, config, nur, ...}: let
+{
+  pkgs,
+  config,
+  nur,
+  ...
+}:
+let
   nurpkgs = nur.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   firefox-addons = nurpkgs.repos.rycee.firefox-addons;
   home = config.users.users.shrimp.home;
-in{
+in
+{
   programs = {
     git = {
       enable = true;
-      settings.user.email = "ebachvictor@gmail.com";
-      settings.user.name = "Ring-A-Ding-Ding-Baby";
-      settings.pull.rebase = true;
+      settings = {
+        user = {
+          email = "ebachvictor@gmail.com";
+          name = "Ring-A-Ding-Ding-Baby";
+        };
+        pull.rebase = true;
+      };
     };
     diff-highlight = {
       enable = true;
@@ -39,24 +50,32 @@ in{
     librewolf = {
       enable = true;
       profiles.detective_shrimp = {
-	settings.extensions.autoDisableScopes = 0;
+        settings.extensions.autoDisableScopes = 0;
         extensions = {
-	  force = true;
-	  packages = with firefox-addons; [
-	    vimium 
-	  ];
-	  settings = {
-	    vimium = {
-	      settings = {
-	       permissions = ["tabs" "bookmarks" "clipboardWrite" "clipboardRead" "history" "notifications" "webNavigation"];
-               grabBackFocus = true;
-               hideUpdateNotifications = true;
-               ignoreKeyboardLayout = true;
-               settingsVersion = "2.4.2";
-	      };
-	    };
-	  };
-	};
+          force = true;
+          packages = with firefox-addons; [
+            vimium
+          ];
+          settings = {
+            vimium = {
+              settings = {
+                permissions = [
+                  "tabs"
+                  "bookmarks"
+                  "clipboardWrite"
+                  "clipboardRead"
+                  "history"
+                  "notifications"
+                  "webNavigation"
+                ];
+                grabBackFocus = true;
+                hideUpdateNotifications = true;
+                ignoreKeyboardLayout = true;
+                settingsVersion = "2.4.2";
+              };
+            };
+          };
+        };
       };
     };
 

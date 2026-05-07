@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+let
+  tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
+  uwsm = "${pkgs.uwsm}/bin/uwsm";
+in
+{
   services = {
     zerotierone.enable = false;
     unbound = {
@@ -28,7 +33,7 @@
       enable = true;
       keyboards = {
         default = {
-          ids = ["*"];
+          ids = [ "*" ];
           settings = {
             main = {
               capslock = "leftmeta";
@@ -45,9 +50,7 @@
       settings = {
         default_session = {
           user = "greeter";
-          command =
-            "${pkgs.tuigreet}/bin/tuigreet --remember --time "
-            + "--cmd '${pkgs.uwsm}/bin/uwsm start hyprland-uwsm.desktop'";
+          command = "${tuigreet} --remember --time " + "--cmd '${uwsm} start hyprland-uwsm.desktop'";
         };
       };
     };
@@ -68,10 +71,9 @@
       alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
-      
+
     };
     upower.enable = true;
-    gnome.gnome-keyring.enable = true;
     openssh.enable = true;
     xray = {
       enable = false;
