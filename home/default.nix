@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  nur,
   ...
 }:
 let
@@ -15,74 +14,81 @@ in
     ./hyprland.nix
   ];
 
-  home.pointerCursor = {
-    enable = true;
-    name = "Nordzy-cursors-hyprcursor";
-    package = pkgs.nordzy-cursor-theme;
-    gtk.enable = true;
-    x11.enable = true;
+  home = {
+    stateVersion = "25.05";
+    pointerCursor = {
+      enable = true;
+      name = "Nordzy-cursors-hyprcursor";
+      package = pkgs.nordzy-cursor-theme;
+      gtk.enable = true;
+      x11.enable = true;
+    };
+
+    packages = with pkgs; [
+      android-studio
+      arp-scan
+      bash-language-server
+      bemenu
+      bluetuith
+      brave
+      breakpointHook
+      breakpointHookCntr
+      brightnessctl
+      discord
+      emacs
+      evtest
+      gdb
+      git-filter-repo
+      gnupg
+      gpg-tui
+      gradle
+      grim
+      hypridle
+      hyprlock
+      hyprpaper
+      jetbrains.idea-oss
+      libnotify
+      mako
+      nixd
+      nordzy-cursor-theme
+      notify-desktop
+      npins
+      openmw
+      p7zip
+      pass
+      pcsx2
+      pinentry-curses
+      playerctl
+      ppsspp
+      prismlauncher
+      protontricks
+      python3
+      qbittorrent
+      simple-mtpfs
+      slurp
+      spotify
+      steam
+      system-config-printer
+      telegram-desktop
+      unzip
+      valgrind
+      vlc
+      vulkan-tools
+      walker
+      waybar
+      waybar-module-music
+      wev
+      wezterm
+      wiremix
+      wlogout
+      yazi
+      zenity
+      zip
+      zscroll
+    ];
   };
 
-  home.packages = with pkgs; [
-    breakpointHook
-    breakpointHookCntr
-    gdb
-    valgrind
-    system-config-printer
-    waybar-module-music
-    zenity
-    simple-mtpfs
-    nordzy-cursor-theme
-    brightnessctl
-    prismlauncher
-    playerctl
-    evtest
-    wev
-    zip
-    p7zip
-    unzip
-    hyprlock
-    hypridle
-    ppsspp
-    pcsx2
-    wlogout
-    hyprpaper
-    mako
-    libnotify
-    notify-desktop
-    bemenu
-    walker
-    android-studio
-    jetbrains.idea-oss
-    emacs
-    wezterm
-    waybar
-    telegram-desktop
-    python3
-    brave
-    grim
-    arp-scan
-    slurp
-    bluetuith
-    wiremix
-    gradle
-    vlc
-    qbittorrent
-    steam
-    openmw
-    vulkan-tools
-    discord
-    spotify
-    gpg-tui
-    gnupg
-    pinentry-curses
-    protontricks
-    pass
-    yazi
-    zscroll
-    git-filter-repo
-    npins
-  ];
+  gtk.gtk4.theme = null;
 
   services = {
     gpg-agent = {
@@ -121,8 +127,6 @@ in
         "org.freedesktop.impl.portal.FileChooser" = "termfilechooser.portal";
       };
     };
-    #THIS SHIT BELOW I DO NOT LIKE THIS APPROACH REALLY BUT NIX FUCKUPS XDG FR FR !!!!
-    # I need to rethink my life or/and this uncanny hackery
     configFile."systemd/user/xdg-desktop-portal.service.d/override.conf".text = ''
       [Service]
       Environment="NIX_XDG_DESKTOP_PORTAL_DIR=${userPortals}"
@@ -169,6 +173,7 @@ in
     polarity = "dark";
     targets = {
       hyprlock.enable = false;
+      neovim.enable = false;
       hyprland.enable = false;
       waybar.enable = false;
       librewolf = {
@@ -246,5 +251,4 @@ in
     '';
   };
 
-  home.stateVersion = "25.05";
 }

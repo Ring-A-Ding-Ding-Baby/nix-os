@@ -1,7 +1,6 @@
-{ ... }:
 {
   networking = {
-    hostName = "shrimp_shack";
+    hostName = "shrimp-shack";
     networkmanager.enable = true;
     networkmanager.dns = "systemd-resolved";
     firewall = {

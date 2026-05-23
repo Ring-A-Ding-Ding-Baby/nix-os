@@ -1,16 +1,26 @@
 {
   pkgs,
-  config,
   nur,
   ...
 }:
 let
   nurpkgs = nur.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  firefox-addons = nurpkgs.repos.rycee.firefox-addons;
-  home = config.users.users.shrimp.home;
 in
 {
   programs = {
+    neovim = {
+      enable = true;
+      withRuby = false;
+      withPython3 = false;
+      extraLuaPackages =
+        ps: with ps; [
+          (pkgs.luajitPackages.callPackage ../lua-curl.nix { })
+          (pkgs.luajitPackages.callPackage ../lunajson.nix { })
+        ];
+      initLua = ''
+        require('config.lazy')
+      '';
+    };
     git = {
       enable = true;
       settings = {
@@ -32,9 +42,18 @@ in
       enable = true;
       enableZshIntegration = true;
       extraConfig = ''
-        return {
-          enable_tab_bar = false,
-        }'';
+        local wezterm = require 'wezterm'
+        local config = wezterm.config_builder()
+        local act = wezterm.action
+
+        config.enable_tab_bar = false
+        config.debug_key_events = true
+        config.keys = {
+          { key = 'c', mods = 'SUPER', action = act.ActivateCopyMode },
+        }
+
+        return config
+      '';
     };
     yazi = {
       enable = true;
@@ -53,7 +72,7 @@ in
         settings.extensions.autoDisableScopes = 0;
         extensions = {
           force = true;
-          packages = with firefox-addons; [
+          packages = with nurpkgs.repos.rycee.firefox-addons; [
             vimium
           ];
           settings = {
@@ -78,7 +97,5 @@ in
         };
       };
     };
-
-    java.enable = true;
   };
 }

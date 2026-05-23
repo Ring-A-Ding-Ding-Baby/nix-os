@@ -5,7 +5,7 @@ let
 in
 {
   services = {
-    zerotierone.enable = false;
+    v2raya.enable = true;
     unbound = {
       enable = true;
     };
@@ -19,6 +19,11 @@ in
           # Good anycast fallbacks (used if DHCP/VPN servers fail)
         };
       };
+    };
+    libretranslate = {
+      enable = true;
+      port = 5000;
+      updateModels = true;
     };
 
     automatic-timezoned.enable = true;

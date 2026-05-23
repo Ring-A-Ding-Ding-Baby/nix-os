@@ -10,14 +10,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    basix.url = "github:NotAShelf/Basix";
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     waybar-module-music = {
-      #url = "github:Andeskjerf/waybar-module-music";
-      url = "path:/home/shrimp/waybar-module-music";
+      url = "github:Andeskjerf/waybar-module-music";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     wifitui = {
@@ -28,12 +26,10 @@
 
   outputs =
     inputs@{
-      self,
       nixpkgs,
       nur,
       stylix,
       home-manager,
-      basix,
       wifitui,
       waybar-module-music,
       ...
@@ -47,14 +43,11 @@
         specialArgs = { inherit inputs wifitui; };
         modules = [
           (import ./system)
-          (
-            { ... }:
-            {
-              nixpkgs.overlays = [
-                waybar-module-music.overlays.default
-              ];
-            }
-          )
+          {
+            nixpkgs.overlays = [
+              waybar-module-music.overlays.default
+            ];
+          }
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
@@ -63,6 +56,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               users.shrimp = import ./home;
+              backupFileExtension = "bkp";
             };
           }
         ];

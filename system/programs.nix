@@ -43,9 +43,19 @@
     zsh = {
       enable = true;
       enableCompletion = true;
+      enableBashCompletion = true;
+      vteIntegration = true;
       autosuggestions.enable = true;
       syntaxHighlighting.enable = true;
       histSize = 1000;
+      promptInit = ''
+        autoload -Uz vcs_info
+        precmd() {vcs_info}
+        zstyle ':vcs_info:git:*' formats '[%b]'
+        setopt PROMPT_SUBST
+        PROMPT=$'%{\e[5;3m%}%F{yellow}[%n]%f%F{blue}[%~]%f%F{green}''${vcs_info_msg_0_}%f %{\e[0m%}'
+      '';
+
       ohMyZsh = {
         enable = true;
         plugins = [
