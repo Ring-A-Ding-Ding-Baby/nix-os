@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  fira = pkgs.nerd-fonts.fira-code;
+  font = pkgs.nerd-fonts.fira-code;
 in
 {
   stylix = {
@@ -10,21 +10,25 @@ in
 
     fonts = {
       serif = {
-        package = fira;
+        package = font;
         name = "FiraCode Nerd Font";
       };
       sansSerif = {
-        package = fira;
+        package = font;
         name = "FiraCode Nerd Font";
       };
       monospace = {
-        package = fira;
-        name = "FiraCode Nerd Font Mono";
+        package = font;
+        name = "FiraCode Nerd Font";
+      };
+      emoji = {
+        package = pkgs.noto-fonts-color-emoji;
+        name = "Noto Color Emoji";
       };
       sizes = {
         desktop = 15;
         applications = 15;
-        terminal = 15;
+        terminal = 12;
       };
     };
   };

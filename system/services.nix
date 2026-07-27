@@ -1,29 +1,33 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
   uwsm = "${pkgs.uwsm}/bin/uwsm";
 in
 {
   services = {
-    v2raya.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+
     unbound = {
       enable = true;
     };
+
     resolved = {
       enable = true;
       settings = {
         Resolve = {
-          DNS = "127.0.0.1";
           DNSSEC = "allow-downgrade"; # safe default
           DNSOverTLS = "opportunistic"; # try DoT when available
-          # Good anycast fallbacks (used if DHCP/VPN servers fail)
         };
       };
     };
     libretranslate = {
       enable = true;
       port = 5000;
-      updateModels = true;
+      updateModels = false;
     };
 
     automatic-timezoned.enable = true;
@@ -72,10 +76,10 @@ in
     pipewire = {
       enable = true;
       audio.enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      jack.enable = true;
+      # alsa.enable = true;
+      # alsa.support32Bit = true;
+      # pulse.enable = true;
+      # jack.enable = true;
 
     };
     upower.enable = true;
@@ -85,20 +89,24 @@ in
       settingsFile = "/etc/xray/config.json";
     };
   };
-  systemd.services.xray = {
-    serviceConfig = {
-      ExecStartPre = [
-        "-${pkgs.iproute2}/bin/ip rule add fwmark 255 lookup main priority 100"
-        "-${pkgs.iproute2}/bin/ip rule add fwmark 1 lookup 100 priority 200"
-        "-${pkgs.iproute2}/bin/ip route add local 0.0.0.0/0 dev lo table 100"
-        "-${pkgs.iproute2}/bin/ip -6 route add local ::/0 dev lo table 100"
-      ];
-      ExecStopPost = [
-        "-${pkgs.iproute2}/bin/ip rule del fwmark 255 lookup main priority 100"
-        "-${pkgs.iproute2}/bin/ip rule del fwmark 1 lookup 100"
-        "-${pkgs.iproute2}/bin/ip route del local 0.0.0.0/0 dev lo table 100"
-        "-${pkgs.iproute2}/bin/ip -6 route del local ::/0 dev lo table 100"
-      ];
+  systemd.services = {
+    libretranslate.wantedBy = lib.mkForce [ ];
+    cups.wantedBy = lib.mkForce [ ];
+    xray = {
+      serviceConfig = {
+        ExecStartPre = [
+          "-${pkgs.iproute2}/bin/ip rule add fwmark 255 lookup main priority 100"
+          "-${pkgs.iproute2}/bin/ip rule add fwmark 1 lookup 100 priority 200"
+          "-${pkgs.iproute2}/bin/ip route add local 0.0.0.0/0 dev lo table 100"
+          "-${pkgs.iproute2}/bin/ip -6 route add local ::/0 dev lo table 100"
+        ];
+        ExecStopPost = [
+          "-${pkgs.iproute2}/bin/ip rule del fwmark 255 lookup main priority 100"
+          "-${pkgs.iproute2}/bin/ip rule del fwmark 1 lookup 100"
+          "-${pkgs.iproute2}/bin/ip route del local 0.0.0.0/0 dev lo table 100"
+          "-${pkgs.iproute2}/bin/ip -6 route del local ::/0 dev lo table 100"
+        ];
+      };
     };
   };
 }

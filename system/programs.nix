@@ -5,6 +5,7 @@
 }:
 {
   programs = {
+    screen.enable = true;
     uwsm = {
       enable = true;
     };

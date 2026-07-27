@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   wifitui,
   ...
 }:
@@ -46,6 +47,7 @@
 
   virtualisation.docker = {
     enable = true;
+    enableOnBoot = false;
   };
 
   security.rtkit.enable = true;
@@ -92,11 +94,15 @@
       "flakes"
     ];
     substituters = [
-      "https://cache.nixos.org"
-      "https://hyprland.cachix.org"
+      # "https://cache.nixos.org"
+      # "https://hyprland.cachix.org"
     ];
     trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
+
+  fonts.packages = with pkgs; [
+    noto-fonts-color-emoji
+  ];
 
   environment = {
     systemPackages = with pkgs; [
@@ -105,6 +111,7 @@
       curl
       dig
       docker
+      duf
       fd
       file
       gcc
@@ -113,6 +120,7 @@
       htop
       jq
       libgcc
+      libreoffice
       lsof
       man-db
       man-pages
@@ -133,10 +141,13 @@
       wl-clipboard
       zig
     ];
+
     pathsToLink = [
       "/share/zsh"
       "/share/applications"
+      "/share/hypr"
     ];
+
     variables = {
       EDITOR = "nvim";
       VISUAL = "nvim";

@@ -8,10 +8,20 @@ let
 in
 {
   programs = {
+    qutebrowser = {
+      enable = true;
+      loadAutoconfig = true;
+    };
     neovim = {
       enable = true;
       withRuby = false;
       withPython3 = false;
+      # plugins = with pkgs.vimPlugins; [
+      #   blink-cmp
+      # ];
+      extraPackages = with pkgs; [
+        vimPlugins.blink-cmp.blink-fuzzy-lib
+      ];
       extraLuaPackages =
         ps: with ps; [
           (pkgs.luajitPackages.callPackage ../lua-curl.nix { })
@@ -37,22 +47,21 @@ in
     };
     gpg.enable = true;
     home-manager.enable = true;
+    java.enable = true;
+    gradle.enable = true;
 
     wezterm = {
       enable = true;
       enableZshIntegration = true;
       extraConfig = ''
-        local wezterm = require 'wezterm'
-        local config = wezterm.config_builder()
         local act = wezterm.action
 
-        config.enable_tab_bar = false
-        config.debug_key_events = true
+        config.enable_tab_bar = true 
+        config.hide_tab_bar_if_only_one_tab = true
         config.keys = {
           { key = 'c', mods = 'SUPER', action = act.ActivateCopyMode },
+          { key = 'w', mods = 'SUPER', action = act.SpawnWindow},
         }
-
-        return config
       '';
     };
     yazi = {
@@ -65,37 +74,5 @@ in
     };
 
     wlogout.enable = true;
-
-    librewolf = {
-      enable = true;
-      profiles.detective_shrimp = {
-        settings.extensions.autoDisableScopes = 0;
-        extensions = {
-          force = true;
-          packages = with nurpkgs.repos.rycee.firefox-addons; [
-            vimium
-          ];
-          settings = {
-            vimium = {
-              settings = {
-                permissions = [
-                  "tabs"
-                  "bookmarks"
-                  "clipboardWrite"
-                  "clipboardRead"
-                  "history"
-                  "notifications"
-                  "webNavigation"
-                ];
-                grabBackFocus = true;
-                hideUpdateNotifications = true;
-                ignoreKeyboardLayout = true;
-                settingsVersion = "2.4.2";
-              };
-            };
-          };
-        };
-      };
-    };
   };
 }

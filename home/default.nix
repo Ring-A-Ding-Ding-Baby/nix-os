@@ -6,7 +6,23 @@
 let
   c = config.lib.stylix.colors;
   u = config.home.username;
+  lazyPluginsLocalPath = ".local/share/nvim/lazy/blink.cmp";
   userPortals = "/etc/profiles/per-user/${u}/share/xdg-desktop-portal/portals";
+  language-servers = pkgs.symlinkJoin {
+    name = "language-servers";
+    paths = with pkgs; [
+      kotlin-language-server
+      jdt-language-server
+    ];
+  };
+  plugins = pkgs.symlinkJoin {
+    name = "vscode-extensions";
+    paths = with pkgs.vscode-extensions.vscjava; [
+      vscode-java-debug
+      vscode-java-test
+      vscode-java-pack
+    ];
+  };
 in
 {
   imports = [
@@ -23,32 +39,42 @@ in
       gtk.enable = true;
       x11.enable = true;
     };
-
+    file.${lazyPluginsLocalPath}.source = "${pkgs.vimPlugins.blink-cmp}";
+    # file.".local/share/vscode-extensions".source = "${plugins}/share/vscode/extensions";
+    # file.".local/share/language-servers".source = "${language-servers}";
     packages = with pkgs; [
-      android-studio
+      # android-studio
+      fzy
+      tree-sitter
+      spring-boot-cli
+      kotlin-language-server
       arp-scan
       bash-language-server
+      lua-language-server
+      lua
       bemenu
       bluetuith
       brave
       breakpointHook
       breakpointHookCntr
       brightnessctl
-      discord
+      # discord
       emacs
       evtest
       gdb
       git-filter-repo
       gnupg
       gpg-tui
-      gradle
       grim
       hypridle
       hyprlock
       hyprpaper
+      jdt-language-server
       jetbrains.idea-oss
       libnotify
+      lombok
       mako
+      maven
       nixd
       nordzy-cursor-theme
       notify-desktop
@@ -88,7 +114,7 @@ in
     ];
   };
 
-  gtk.gtk4.theme = null;
+  # gtk.gtk4.theme = null;
 
   services = {
     gpg-agent = {
@@ -176,12 +202,13 @@ in
       neovim.enable = false;
       hyprland.enable = false;
       waybar.enable = false;
-      librewolf = {
-        enable = true;
-        colorTheme.enable = true;
-        colors.enable = true;
-        profileNames = [ "detective_shrimp" ];
-      };
+      # qutebrowser.enable = false;
+      # librewolf = {
+      #   enable = true;
+      #   colorTheme.enable = true;
+      #   colors.enable = true;
+      #   profileNames = [ "detective_shrimp" ];
+      # };
     };
   };
 
@@ -251,4 +278,44 @@ in
     '';
   };
 
+  xdg.configFile."stylix/palette.lua" = {
+    enable = true;
+    text = ''
+      return {        
+        base00H = "#${c.withHashtag.base00}",
+        base01H = "#${c.withHashtag.base01}",
+        base02H = "#${c.withHashtag.base02}",
+        base03H = "#${c.withHashtag.base03}",
+        base04H = "#${c.withHashtag.base04}",
+        base05H = "#${c.withHashtag.base05}",
+        base06H = "#${c.withHashtag.base06}",
+        base07H = "#${c.withHashtag.base07}",
+        base08H = "#${c.withHashtag.base08}",
+        base09H = "#${c.withHashtag.base09}",
+        base0AH = "#${c.withHashtag.base0A}",
+        base0BH = "#${c.withHashtag.base0B}",
+        base0CH = "#${c.withHashtag.base0C}",
+        base0DH = "#${c.withHashtag.base0D}",
+        base0EH = "#${c.withHashtag.base0E}",
+        base0FH = "#${c.withHashtag.base0F}",
+
+        base00 = "rgba(${c.base00-rgb-r},${c.base00-rgb-g},${c.base00-rgb-b},1)",
+        base01 = "rgba(${c.base01-rgb-r},${c.base01-rgb-g},${c.base01-rgb-b},1)",
+        base02 = "rgba(${c.base02-rgb-r},${c.base02-rgb-g},${c.base02-rgb-b},1)",
+        base03 = "rgba(${c.base03-rgb-r},${c.base03-rgb-g},${c.base03-rgb-b},1)",
+        base04 = "rgba(${c.base04-rgb-r},${c.base04-rgb-g},${c.base04-rgb-b},1)",
+        base05 = "rgba(${c.base05-rgb-r},${c.base05-rgb-g},${c.base05-rgb-b},1)",
+        base06 = "rgba(${c.base06-rgb-r},${c.base06-rgb-g},${c.base06-rgb-b},1)",
+        base07 = "rgba(${c.base07-rgb-r},${c.base07-rgb-g},${c.base07-rgb-b},1)",
+        base08 = "rgba(${c.base08-rgb-r},${c.base08-rgb-g},${c.base08-rgb-b},1)",
+        base09 = "rgba(${c.base09-rgb-r},${c.base09-rgb-g},${c.base09-rgb-b},1)",
+        base0A = "rgba(${c.base0A-rgb-r},${c.base0A-rgb-g},${c.base0A-rgb-b},1)",
+        base0B = "rgba(${c.base0B-rgb-r},${c.base0B-rgb-g},${c.base0B-rgb-b},1)",
+        base0C = "rgba(${c.base0C-rgb-r},${c.base0C-rgb-g},${c.base0C-rgb-b},1)",
+        base0D = "rgba(${c.base0D-rgb-r},${c.base0D-rgb-g},${c.base0D-rgb-b},1)",
+        base0E = "rgba(${c.base0E-rgb-r},${c.base0E-rgb-g},${c.base0E-rgb-b},1)",
+        base0F = "rgba(${c.base0F-rgb-r},${c.base0F-rgb-g},${c.base0F-rgb-b},1)",
+      }
+    '';
+  };
 }
