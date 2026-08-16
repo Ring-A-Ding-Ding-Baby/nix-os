@@ -8,6 +8,9 @@ let
 in
 {
   programs = {
+    foliate = {
+      enable = true;
+    };
     qutebrowser = {
       enable = true;
       loadAutoconfig = true;
@@ -16,17 +19,17 @@ in
       enable = true;
       withRuby = false;
       withPython3 = false;
-      # plugins = with pkgs.vimPlugins; [
-      #   blink-cmp
+      # # plugins = with pkgs.vimPlugins; [
+      # #   blink-cmp
+      # # ];
+      # extraPackages = with pkgs; [
+      #   vimPlugins.blink-cmp.blink-fuzzy-lib
       # ];
-      extraPackages = with pkgs; [
-        vimPlugins.blink-cmp.blink-fuzzy-lib
-      ];
-      extraLuaPackages =
-        ps: with ps; [
-          (pkgs.luajitPackages.callPackage ../lua-curl.nix { })
-          (pkgs.luajitPackages.callPackage ../lunajson.nix { })
-        ];
+      # extraLuaPackages =
+      #   ps: with ps; [
+      #     (pkgs.luajitPackages.callPackage ../lua-curl.nix { })
+      #     (pkgs.luajitPackages.callPackage ../lunajson.nix { })
+      #   ];
       initLua = ''
         require('config.lazy')
       '';

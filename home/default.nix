@@ -8,21 +8,6 @@ let
   u = config.home.username;
   lazyPluginsLocalPath = ".local/share/nvim/lazy/blink.cmp";
   userPortals = "/etc/profiles/per-user/${u}/share/xdg-desktop-portal/portals";
-  language-servers = pkgs.symlinkJoin {
-    name = "language-servers";
-    paths = with pkgs; [
-      kotlin-language-server
-      jdt-language-server
-    ];
-  };
-  plugins = pkgs.symlinkJoin {
-    name = "vscode-extensions";
-    paths = with pkgs.vscode-extensions.vscjava; [
-      vscode-java-debug
-      vscode-java-test
-      vscode-java-pack
-    ];
-  };
 in
 {
   imports = [
@@ -40,27 +25,24 @@ in
       x11.enable = true;
     };
     file.${lazyPluginsLocalPath}.source = "${pkgs.vimPlugins.blink-cmp}";
-    # file.".local/share/vscode-extensions".source = "${plugins}/share/vscode/extensions";
-    # file.".local/share/language-servers".source = "${language-servers}";
+    file.".local/share/vscode/".source =
+      "${pkgs.vscode-extensions.vadimcn.vscode-lldb.outPath}/share/vscode/";
+
     packages = with pkgs; [
-      # android-studio
-      fzy
-      tree-sitter
-      spring-boot-cli
-      kotlin-language-server
+      # discord
+      (callPackage ../palantir-java.nix { })
+      nixfmt
       arp-scan
       bash-language-server
-      lua-language-server
-      lua
       bemenu
       bluetuith
       brave
       breakpointHook
       breakpointHookCntr
       brightnessctl
-      # discord
       emacs
       evtest
+      fzy
       gdb
       git-filter-repo
       gnupg
@@ -69,10 +51,12 @@ in
       hypridle
       hyprlock
       hyprpaper
-      jdt-language-server
       jetbrains.idea-oss
+      kotlin-language-server
       libnotify
       lombok
+      lua
+      lua-language-server
       mako
       maven
       nixd
@@ -93,9 +77,12 @@ in
       simple-mtpfs
       slurp
       spotify
+      spring-boot-cli
       steam
+      stylua
       system-config-printer
       telegram-desktop
+      tree-sitter
       unzip
       valgrind
       vlc
@@ -189,6 +176,12 @@ in
       enable = true;
       defaultApplications = {
         "inode/directory" = [ "yazi.desktop" ];
+        "text/html" = "org.qutebrowser.qutebrowser.desktop";
+        "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
+        "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
+        "x-scheme-handler/about" = "org.qutebrowser.qutebrowser.desktop";
+        "x-scheme-handler/unknown" = "org.qutebrowser.qutebrowser.desktop";
+        "application/pdf" = "com.github.johnfactotum.Foliate.desktop";
       };
     };
   };
