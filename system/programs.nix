@@ -1,6 +1,7 @@
 {
   pkgs,
-  inputs,
+  hyprland,
+  config,
   ...
 }:
 {
@@ -11,7 +12,7 @@
     };
     hyprland =
       let
-        hypr-pkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
+        hypr-pkgs = hyprland.packages.${pkgs.stdenv.hostPlatform.system};
       in
       {
         enable = true;
@@ -19,12 +20,18 @@
         package = hypr-pkgs.hyprland;
         portalPackage = hypr-pkgs.xdg-desktop-portal-hyprland;
       };
+
     neovim = {
       enable = true;
       defaultEditor = true;
       viAlias = true;
       vimAlias = true;
     };
+
+    wireshark = {
+      enable = true;
+    };
+
     git = {
       enable = true;
       config = {
@@ -36,19 +43,28 @@
     ssh = {
       startAgent = true;
       extraConfig = "
-      Host github.com
-	User git 
-        IdentityFile ~/.ssh/id_ed25519
+       Host github.com
+	     User git 
+       IdentityFile ~/.ssh/id_ed25519
       ";
     };
+
     zsh = {
       enable = true;
+      # dotDir = "${config.xdg.configHome}/zsh";
       enableCompletion = true;
       enableBashCompletion = true;
       vteIntegration = true;
       autosuggestions.enable = true;
       syntaxHighlighting.enable = true;
       histSize = 1000;
+
+      shellAliases = {
+        xo = "xdg-open";
+        qute = "qutebrowser --qt-flag disable-gpu &> /dev/null & disown";
+        nixc = "sudo -E zsh -c 'cd /etc/nixos && exec zsh'";
+      };
+      enableLsColors = true;
       promptInit = ''
         autoload -Uz vcs_info
         precmd() {vcs_info}

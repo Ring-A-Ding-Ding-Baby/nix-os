@@ -1,11 +1,10 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nur = {
-      url = "github:nix-community/NUR";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,19 +17,13 @@
       url = "github:Andeskjerf/waybar-module-music";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    wifitui = {
-      url = "github:shazow/wifitui";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     inputs@{
       nixpkgs,
-      nur,
       stylix,
       home-manager,
-      wifitui,
       waybar-module-music,
       ...
     }:
@@ -40,19 +33,29 @@
     {
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
       nixosConfigurations."shrimp-shack" = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs wifitui; };
+        specialArgs = inputs;
         modules = [
           (import ./system)
           {
             nixpkgs.overlays = [
               waybar-module-music.overlays.default
+              (final: prev: {
+                base16-schemes = prev.base16-schemes.overrideAttrs (oldAttrs: {
+                  src = final.fetchFromGitHub {
+                    owner = "tinted-theming";
+                    repo = "schemes";
+                    rev = "fabeb64a0d40965b56f62b5785b7a8ba103579fd";
+                    hash = "sha256-mSz5si52rlWH1HA+pNV/7PEd9JYWQsRTZDG+nY4fWRM=";
+                  };
+                });
+              })
             ];
           }
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager = {
-              extraSpecialArgs = { inherit inputs nur; };
+              extraSpecialArgs = { inherit inputs; };
               useGlobalPkgs = true;
               useUserPackages = true;
               users.shrimp = import ./home;

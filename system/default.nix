@@ -1,7 +1,5 @@
 {
   pkgs,
-  lib,
-  wifitui,
   ...
 }:
 {
@@ -82,7 +80,9 @@
       "networkmanager"
       "wheel"
       "docker"
+      "wireshark"
       "input"
+      "someweirdgroup"
     ];
   };
 
@@ -137,7 +137,8 @@
       tuigreet
       wget
       whois
-      wifitui.packages.${pkgs.stdenv.hostPlatform.system}.default
+      wifitui
+      wireshark
       wl-clipboard
       zig
     ];

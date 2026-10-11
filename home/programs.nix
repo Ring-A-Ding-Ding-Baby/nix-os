@@ -1,13 +1,14 @@
 {
-  pkgs,
-  nur,
   ...
 }:
-let
-  nurpkgs = nur.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-in
 {
   programs = {
+    zsh.enable = true;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+      enableZshIntegration = true;
+    };
     foliate = {
       enable = true;
     };
@@ -17,19 +18,8 @@ in
     };
     neovim = {
       enable = true;
-      withRuby = false;
-      withPython3 = false;
-      # # plugins = with pkgs.vimPlugins; [
-      # #   blink-cmp
-      # # ];
-      # extraPackages = with pkgs; [
-      #   vimPlugins.blink-cmp.blink-fuzzy-lib
-      # ];
-      # extraLuaPackages =
-      #   ps: with ps; [
-      #     (pkgs.luajitPackages.callPackage ../lua-curl.nix { })
-      #     (pkgs.luajitPackages.callPackage ../lunajson.nix { })
-      #   ];
+      withRuby = true;
+      withPython3 = true;
       initLua = ''
         require('config.lazy')
       '';

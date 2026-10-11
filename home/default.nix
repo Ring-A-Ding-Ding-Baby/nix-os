@@ -8,13 +8,32 @@ let
   u = config.home.username;
   lazyPluginsLocalPath = ".local/share/nvim/lazy/blink.cmp";
   userPortals = "/etc/profiles/per-user/${u}/share/xdg-desktop-portal/portals";
+  vscode-extensions = pkgs.symlinkJoin {
+    name = "vscode-extensions";
+    paths = [
+      pkgs.vscode-extensions.vscjava.vscode-java-debug
+      pkgs.vscode-extensions.vadimcn.vscode-lldb
+    ];
+  };
+
+  hyprDots = pkgs.fetchFromGitHub {
+    owner = "Ring-A-Ding-Ding-Baby";
+    repo = "hyprdots";
+    rev = "main";
+    hash = "sha256-fXDZbhJMdO6d/rIOgEP56jlpt/GsRQbqN+YczIYhE4w=";
+  };
+  wayDots = pkgs.fetchFromGitHub {
+    owner = "Ring-A-Ding-Ding-Baby";
+    repo = "waybar";
+    rev = "main";
+    hash = "sha256-PLZ7w2ikKCy7Kg4iH77qhz7YkiQ8Q2mcM9HSuuKo4Vk=";
+  };
 in
 {
   imports = [
     ./programs.nix
     ./hyprland.nix
   ];
-
   home = {
     stateVersion = "25.05";
     pointerCursor = {
@@ -24,14 +43,35 @@ in
       gtk.enable = true;
       x11.enable = true;
     };
-    file.${lazyPluginsLocalPath}.source = "${pkgs.vimPlugins.blink-cmp}";
-    file.".local/share/vscode/".source =
-      "${pkgs.vscode-extensions.vadimcn.vscode-lldb.outPath}/share/vscode/";
+
+    sessionPath = [
+      "$HOME/.config/emacs/bin"
+      "$HOME/.local/bin"
+    ];
+
+    file = {
+      ${lazyPluginsLocalPath}.source = "${pkgs.vimPlugins.blink-cmp}";
+      ".local/share/vscode-extensions".source = "${vscode-extensions}/share/vscode/extensions";
+      ".config/hypr" = {
+        source = hyprDots;
+        recursive = true;
+      };
+      ".config/waybar" = {
+        source = wayDots;
+        recursive = true;
+      };
+
+    };
 
     packages = with pkgs; [
       # discord
+      # jetbrains.idea
+      # zscroll
+      kooha
+      gdb
+      cmake
+      jdt-language-server
       (callPackage ../palantir-java.nix { })
-      nixfmt
       arp-scan
       bash-language-server
       bemenu
@@ -39,6 +79,7 @@ in
       brave
       breakpointHook
       breakpointHookCntr
+      briar-desktop
       brightnessctl
       emacs
       evtest
@@ -51,7 +92,6 @@ in
       hypridle
       hyprlock
       hyprpaper
-      jetbrains.idea-oss
       kotlin-language-server
       libnotify
       lombok
@@ -60,6 +100,7 @@ in
       mako
       maven
       nixd
+      nixfmt
       nordzy-cursor-theme
       notify-desktop
       npins
@@ -67,7 +108,7 @@ in
       p7zip
       pass
       pcsx2
-      pinentry-curses
+      pinentry-bemenu
       playerctl
       ppsspp
       prismlauncher
@@ -82,6 +123,7 @@ in
       stylua
       system-config-printer
       telegram-desktop
+      termshark
       tree-sitter
       unzip
       valgrind
@@ -97,7 +139,6 @@ in
       yazi
       zenity
       zip
-      zscroll
     ];
   };
 
@@ -106,8 +147,12 @@ in
   services = {
     gpg-agent = {
       enable = true;
-      pinentry.package = pkgs.pinentry-curses;
-      pinentry.program = "pinentry-curses";
+      pinentry.package = pkgs.pinentry-bemenu;
+      pinentry.program = "pinentry-bemenu";
+      # extraConfig = ''
+      #   allow-emacs-pinentry
+      #   allow-loopback-pinentry
+      # '';
     };
     hypridle = {
       enable = true;
@@ -147,9 +192,10 @@ in
 
     configFile."xdg-desktop-portal-termfilechooser/config" = {
       force = true;
+      # executable = true;
       text = ''
         [filechooser]
-        cmd=yazi-wrapper.sh
+        cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
         default_dir=$HOME
         env=TERMCMD=wezterm start --class popup --
         open_mode = suggested
