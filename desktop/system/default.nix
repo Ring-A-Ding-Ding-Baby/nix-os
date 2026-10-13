@@ -4,7 +4,6 @@
 }:
 {
   imports = [
-    ./hardware-configuration.nix
     ./services.nix
     ./networking.nix
     ./stylix.nix
@@ -20,8 +19,6 @@
     kernel.sysctl = {
       "net.ipv6.conf.all.forwarding" = 1;
     };
-    initrd.luks.devices."luks-7bc4790b-bcfd-45ff-8327-c8779ce4ae2b".device =
-      "/dev/disk/by-uuid/7bc4790b-bcfd-45ff-8327-c8779ce4ae2b";
   };
 
   i18n = {
@@ -49,27 +46,6 @@
   };
 
   security.rtkit.enable = true;
-  hardware = {
-    xpadneo.enable = true;
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        intel-vaapi-driver
-        mesa
-      ];
-    };
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-      settings = {
-        General = {
-          Experimental = true;
-        };
-      };
-    };
-  };
 
   users.defaultUserShell = pkgs.zsh;
 
@@ -82,7 +58,6 @@
       "docker"
       "wireshark"
       "input"
-      "someweirdgroup"
     ];
   };
 
