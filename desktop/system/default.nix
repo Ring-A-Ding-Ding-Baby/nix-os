@@ -1,5 +1,6 @@
 {
   pkgs,
+  userName,
   ...
 }:
 {
@@ -49,9 +50,9 @@
 
   users.defaultUserShell = pkgs.zsh;
 
-  users.users.shrimp = {
+  users.users.${userName} = {
     isNormalUser = true;
-    description = "shrimp";
+    description = userName;
     extraGroups = [
       "networkmanager"
       "wheel"

@@ -33,26 +33,25 @@
         inherit system;
       };
 
-      mkDesktop = hostname: modules: {
-        "${hostname}" =
-          (pkgs.lib.callPackageWith (
-            pkgs
-            // inputs
-            // {
-              inherit inputs;
-            }
-          ))
-            ./desktop/default.nix
-            {
-              inherit modules;
-            };
-
-      };
+      mkDesktop =
+        hostName: userName: modules:
+        let
+          merged = inputs // {
+            inherit
+              modules
+              hostName
+              userName
+              ;
+          };
+        in
+        {
+          "${hostName}" = pkgs.callPackage ./desktop/default.nix (merged // { inputs = merged; });
+        };
     in
     {
       formatter."${system}" = pkgs.nixfmt-tree;
       nixosConfigurations =
-        mkDesktop "shrimp-shack" [ (import ./hosts/shrimp-shack) ]
-        // mkDesktop "agent-blue" [ (import ./hosts/shrimp-shack) ];
+        mkDesktop "shrimp-shack" "shrimp" [ (import ./hosts/shrimp-shack) ]
+        // mkDesktop "agent-blue" "blue" [ (import ./hosts/shrimp-shack) ];
     };
 }

@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, hostName, ... }:
 {
   networking = {
-    hostName = "shrimp-shack";
+    inherit hostName;
   };
   hardware = {
     xpadneo.enable = true;

@@ -24,11 +24,6 @@ in
         };
       };
     };
-    libretranslate = {
-      enable = true;
-      port = 5000;
-      updateModels = false;
-    };
 
     automatic-timezoned.enable = true;
 

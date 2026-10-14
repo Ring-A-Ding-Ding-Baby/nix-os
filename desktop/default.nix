@@ -5,6 +5,7 @@
   inputs,
   home-manager,
   modules,
+  userName,
   ...
 }:
 nixpkgs.lib.nixosSystem {
@@ -30,10 +31,10 @@ nixpkgs.lib.nixosSystem {
     home-manager.nixosModules.home-manager
     {
       home-manager = {
-        extraSpecialArgs = { inherit inputs; };
+        extraSpecialArgs = inputs;
         useGlobalPkgs = true;
         useUserPackages = true;
-        users.shrimp = import ./home;
+        users.${userName} = import ./home;
         backupFileExtension = "bkp";
       };
     }

@@ -241,13 +241,6 @@ in
       neovim.enable = false;
       hyprland.enable = false;
       waybar.enable = false;
-      # qutebrowser.enable = false;
-      # librewolf = {
-      #   enable = true;
-      #   colorTheme.enable = true;
-      #   colors.enable = true;
-      #   profileNames = [ "detective_shrimp" ];
-      # };
     };
   };
 
