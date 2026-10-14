@@ -19,13 +19,13 @@ let
   hyprDots = pkgs.fetchFromGitHub {
     owner = "Ring-A-Ding-Ding-Baby";
     repo = "hyprdots";
-    rev = "main";
-    hash = "sha256-fXDZbhJMdO6d/rIOgEP56jlpt/GsRQbqN+YczIYhE4w=";
+    rev = "9335b75bf9a632489bd78f0d774fe7b54ecb7a0a";
+    hash = "sha256-2PerwjCge41Tet+AX4fcnODT2b/Ha5Wqjy4pvd1DKoc=";
   };
   wayDots = pkgs.fetchFromGitHub {
     owner = "Ring-A-Ding-Ding-Baby";
     repo = "waybar";
-    rev = "main";
+    rev = "7de24c0ed74c604d91250453106c140c2092b7ed";
     hash = "sha256-PLZ7w2ikKCy7Kg4iH77qhz7YkiQ8Q2mcM9HSuuKo4Vk=";
   };
 in
