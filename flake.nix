@@ -52,6 +52,6 @@
       formatter."${system}" = pkgs.nixfmt-tree;
       nixosConfigurations =
         mkDesktop "shrimp-shack" "shrimp" [ (import ./hosts/shrimp-shack) ]
-        // mkDesktop "agent-blue" "blue" [ (import ./hosts/shrimp-shack) ];
+        // mkDesktop "agent-blue" "blue" [ (import ./hosts/agent-blue) ];
     };
 }
