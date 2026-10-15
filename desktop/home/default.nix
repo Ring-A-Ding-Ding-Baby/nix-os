@@ -19,8 +19,8 @@ let
   hyprDots = pkgs.fetchFromGitHub {
     owner = "Ring-A-Ding-Ding-Baby";
     repo = "hyprdots";
-    rev = "0b858e42d906528ecfb2155ed321641e92dc964b";
-    hash = "sha256-vLVs+lQ87lFd6C6e9TeOWyQJkNQ+Npijr/n6DtMekM8=";
+    rev = "c02aa869740edbbffc75efe17fe37c34f548d7d6";
+    hash = "sha256-CjngTMGqudyarrLCNuGDoI9tmYOEGEuBeiqZotfXcaQ=";
   };
   wayDots = pkgs.fetchFromGitHub {
     owner = "Ring-A-Ding-Ding-Baby";
@@ -67,10 +67,6 @@ in
       # discord
       # jetbrains.idea
       # zscroll
-      kooha
-      gdb
-      cmake
-      jdt-language-server
       (callPackage ../palantir-java.nix { })
       arp-scan
       bash-language-server
@@ -81,9 +77,11 @@ in
       breakpointHookCntr
       briar-desktop
       brightnessctl
+      cmake
       emacs
       evtest
       fzy
+      gdb
       gdb
       git-filter-repo
       gnupg
@@ -92,6 +90,8 @@ in
       hypridle
       hyprlock
       hyprpaper
+      jdt-language-server
+      kooha
       kotlin-language-server
       libnotify
       lombok
