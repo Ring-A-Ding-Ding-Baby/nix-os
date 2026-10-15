@@ -19,8 +19,8 @@ let
   hyprDots = pkgs.fetchFromGitHub {
     owner = "Ring-A-Ding-Ding-Baby";
     repo = "hyprdots";
-    rev = "c02aa869740edbbffc75efe17fe37c34f548d7d6";
-    hash = "sha256-CjngTMGqudyarrLCNuGDoI9tmYOEGEuBeiqZotfXcaQ=";
+    rev = "3251e8577656f847f0a367ccc2d1bf82bc18bef3";
+    hash = "sha256-Be4/KVV7aYKCwq9z68epjVs9Kc4UXwg1iYbZB09Gghc=";
   };
   wayDots = pkgs.fetchFromGitHub {
     owner = "Ring-A-Ding-Ding-Baby";
