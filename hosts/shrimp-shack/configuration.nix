@@ -17,7 +17,7 @@
 
   nix.settings.substituters = [ "ssh://nix-ssh@agent-blue.lan" ];
   nix.settings.trusted-public-keys = [
-    "insert damn key"
+    "cache.agent-blue:eexZRE3cEx0bPTQ8aQ1TyRXDw5/pdd889Gco4RRDONM="
   ];
 
   hardware = {
