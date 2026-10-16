@@ -15,6 +15,13 @@
     inherit hostName;
   };
 
+  nix.sshServe = {
+    enable = true;
+    keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK6OZ3Xwb+Cl57q8xoDC2pr9GMRRupLtucqUWnjZJXBu ebachvictor@gmail.com"
+    ];
+  };
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
