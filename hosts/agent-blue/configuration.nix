@@ -30,11 +30,30 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.xpadneo.enable = true;
+  nix.settings = {
+    secret-key-files = [
+      "/etc/secrets/cache.agent-blue"
+    ];
 
-  nix.settings.substituters = [ "ssh://nix-ssh@shrimp-shack.lan" ];
-  nix.settings.trusted-public-keys = [
-    "cache.shrimp-shack:OFHIf0XOslJe4+JgjgIZDyGTbei92O4ycrkj/m8GRKc="
-  ];
+    substituters = [
+      "ssh://nix-ssh@shrimp-shack.lan"
+      "https://hyprland.cachix.org"
+    ];
+    trusted-substituters = [
+      "ssh://nix-ssh@shrimp-shack.lan"
+      "https://hyprland.cachix.org"
+
+    ];
+    trusted-public-keys = [
+      "cache.shrimp-shack:OFHIf0XOslJe4+JgjgIZDyGTbei92O4ycrkj/m8GRKc="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    ];
+  };
+
+  programs.steam = {
+    enable = true;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
+  };
 
   hardware.nvidia = {
     open = false;

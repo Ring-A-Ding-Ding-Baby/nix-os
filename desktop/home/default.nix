@@ -69,6 +69,7 @@ in
       # zscroll
       (callPackage ../palantir-java.nix { })
       arp-scan
+      appimage-run
       bash-language-server
       bemenu
       bluetuith
