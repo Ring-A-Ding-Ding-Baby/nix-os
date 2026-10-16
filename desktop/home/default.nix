@@ -88,7 +88,6 @@ in
       gpg-tui
       grim
       hypridle
-      hyprlock
       hyprpaper
       jdt-language-server
       kooha
@@ -115,7 +114,6 @@ in
       protontricks
       python3
       qbittorrent
-      simple-mtpfs
       slurp
       spotify
       spring-boot-cli

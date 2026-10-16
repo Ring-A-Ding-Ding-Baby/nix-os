@@ -46,6 +46,7 @@
     enableOnBoot = false;
   };
 
+  security.pam.services.hyprlock = {};
   security.rtkit.enable = true;
 
   users.defaultUserShell = pkgs.zsh;

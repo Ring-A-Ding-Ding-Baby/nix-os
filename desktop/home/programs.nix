@@ -62,10 +62,6 @@
       enableZshIntegration = true;
     };
 
-    hyprlock = {
-      enable = true;
-    };
-
     wlogout.enable = true;
   };
 }

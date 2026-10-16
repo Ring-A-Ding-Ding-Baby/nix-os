@@ -13,8 +13,8 @@
 {
   networking = {
     inherit hostName;
-
   };
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -28,10 +28,12 @@
   nix.settings.trusted-public-keys = [
     "cache.shrimp-shack:OFHIf0XOslJe4+JgjgIZDyGTbei92O4ycrkj/m8GRKc="
   ];
+
   hardware.nvidia = {
     open = false;
     modesetting.enable = true;
     nvidiaSettings = true;
+    powerManagement.enable = true;
     branch = "legacy_580";
   };
 }
