@@ -50,11 +50,6 @@
     ];
   };
 
-  programs.steam = {
-    enable = true;
-    extraCompatPackages = with pkgs; [ proton-ge-bin ];
-  };
-
   hardware.nvidia = {
     open = false;
     modesetting.enable = true;

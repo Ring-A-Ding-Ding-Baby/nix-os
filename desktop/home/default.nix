@@ -118,7 +118,6 @@ in
       slurp
       spotify
       spring-boot-cli
-      steam
       stylua
       system-config-printer
       telegram-desktop

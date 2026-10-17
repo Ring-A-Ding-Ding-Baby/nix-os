@@ -28,6 +28,11 @@
       vimAlias = true;
     };
 
+    steam = {
+      enable = true;
+      extraCompatPackages = with pkgs; [ proton-ge-bin ];
+    };
+
     wireshark = {
       enable = true;
     };
