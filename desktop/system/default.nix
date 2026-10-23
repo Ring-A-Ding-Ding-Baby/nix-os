@@ -17,9 +17,6 @@
       efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_latest;
-    kernel.sysctl = {
-      "net.ipv6.conf.all.forwarding" = 1;
-    };
   };
 
   i18n = {
@@ -71,10 +68,18 @@
       "flakes"
     ];
     substituters = [
-      # "https://cache.nixos.org"
-      # "https://hyprland.cachix.org"
+      "https://hyprland.cachix.org"
     ];
-    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    trusted-substituters = [
+      "https://hyprland.cachix.org"
+    ];
+    trusted-public-keys = [
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    ];
+    trusted-users = [
+      "root"
+      "@wheel"
+    ];
   };
 
   fonts.packages = with pkgs; [
@@ -83,6 +88,7 @@
 
   environment = {
     systemPackages = with pkgs; [
+      nix-tree
       bluez
       clang
       curl

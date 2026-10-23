@@ -34,19 +34,14 @@
     secret-key-files = [
       "/etc/secrets/cache.agent-blue"
     ];
-
     substituters = [
       "ssh://nix-ssh@shrimp-shack.lan"
-      "https://hyprland.cachix.org"
     ];
     trusted-substituters = [
       "ssh://nix-ssh@shrimp-shack.lan"
-      "https://hyprland.cachix.org"
-
     ];
     trusted-public-keys = [
       "cache.shrimp-shack:OFHIf0XOslJe4+JgjgIZDyGTbei92O4ycrkj/m8GRKc="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ];
   };
 

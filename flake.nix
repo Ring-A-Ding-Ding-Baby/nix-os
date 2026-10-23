@@ -1,10 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    hyprland.url = "github:hyprwm/Hyprland";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,6 +14,10 @@
       url = "github:Andeskjerf/waybar-module-music";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix = {
+      url = "github:NixOS/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -25,20 +26,24 @@
       stylix,
       home-manager,
       waybar-module-music,
+      nix,
+      hyprland,
       ...
     }:
     let
       system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-      };
-
+      hyprPkgs = hyprland.packages.${system};
       mkDesktop =
-        hostName: userName: modules:
+        system: hostName: userName: systemModules: overlays:
         let
+          pkgs = import nixpkgs {
+            inherit system;
+          };
           merged = inputs // {
             inherit
-              modules
+              hyprPkgs
+              systemModules
+              overlays
               hostName
               userName
               ;
@@ -49,9 +54,13 @@
         };
     in
     {
-      formatter."${system}" = pkgs.nixfmt-tree;
+      formatter."${system}" = (import nixpkgs { inherit system; }).nixfmt-tree;
       nixosConfigurations =
-        mkDesktop "shrimp-shack" "shrimp" [ (import ./hosts/shrimp-shack) ]
-        // mkDesktop "agent-blue" "blue" [ (import ./hosts/agent-blue) ];
+        mkDesktop system "shrimp-shack" "shrimp"
+          [
+            (import ./hosts/shrimp-shack)
+          ]
+          [ nix.overlays.default ]
+        // mkDesktop system "agent-blue" "blue" [ (import ./hosts/agent-blue) ] [ ];
     };
 }
